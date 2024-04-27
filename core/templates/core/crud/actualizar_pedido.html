@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+        <br>
+        <h1>Panel Gestion de Ordenes</h1>
+        <br>
+        <!-- <a href="{% url 'agregar' %}" class="btn btn-success mb-3 me-4" style="float: right;">Nuevo producto</a> -->
+    </div>
+    <div class="col-2"></div>
+    </div>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row-cols-auto ">
+        <div class="col-2 "></div>
+            <div class="col-8 container">
+                
+                    <table class="table table-responsive-sm">
+                        <thead>
+                          <tr>
+                            <th scope="col">ID del Pedido</th>
+                            <th scope="col">cliente</th>
+                            <th scope="col">precio del pedido</th>
+                            <th scope="col">¿Era subscriptor?</th>
+                            <th scope="col">fecha de compra</th>
+                            <th scope="col">fecha actualizacion del pedido</th>
+                            <th scope="col">estado del pedido</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                
+                                    <th scope="row">{{ aux.id }}</th>
+                                    <td>{{ aux.id_usuario }}</td>
+                                    <td>${{ aux.precio_orden }}</td>
+                                    <td>{% if aux.descuento_sub == 1 %}Si {% else %}No{% endif %}</td>
+                                    <td>{{ aux.creado_en }}</td>
+                                    <td>{{ aux.modificado_en }}</td>
+                                    <td><form action="" method="POST">
+                                        {% csrf_token %}
+                                      <table>
+                                        {{ form | crispy }}
+                                      </table>
+                                      <br>
+                                      
+                                      <input type="submit" class="btn btn-success" style="float: right;" value="Modificar">
+                                    </form></td>
+                                    
+                            </tr>
+                                
+                        </tbody>
+                      </table>
+                     <a href="{% url 'menupedidos' %}" class="btn btn-primary mb-3 ms-4" style="float: left;">Volver</a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col-8" style="align-content: center;">
+            {% include 'core/paginator.html' %}
+
+        </div>
+        <div class="col-2 d-none d-lg-block "></div>
+    </div>
+</div>
+    {% if messages %}
+            {% for message in messages %}
+              <script>
+                Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Pedido actualizado',
+                showConfirmButton: false,
+                timer: 1200
+              }) </script> 
+            {% endfor %}
+        {% endif %}
+</body>
+{% endblock contenido %}
+{% block js %}
+    <script >function eliminarProducto(id) {
+        Swal.fire({
+          title: '¿Está seguro de eliminar este producto?',
+          text: 'Esta accion no se puede revertir',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'No, cancelar',
+          confirmButtonText: 'Si, eliminar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire('Eliminado!','Producto Eliminado Correctamente','success').then(function() {
+                window.location.href = "/eliminar/"+id+"/";
+            })
+          }
+        })
+    }</script>
+{% endblock %}

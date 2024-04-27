@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block contenido %}
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                <br>
+                <h1 style="text-align: center;">Lista de pedidos</h1>
+                <br>
+                <a type="button" class="btn btn-success ms-1" href="{% url 'pedidos' %}">Volver</a>
+                <div class="card-body">
+                  <table class="table table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th style="text-align: center;" scope="col">Producto</th>
+                          <th style="text-align: center;" scope="col"></th>
+                          <th style="text-align: center;" scope="col">Precio</th>
+                          <th style="text-align: center;" scope="col">Cantidad</th>
+                          <th style="text-align: center;" scope="col">Subtotal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for aux in detalle %}
+                          <tr>
+                              <td style="text-align: center;">
+                                    {% if aux.producto.imagen %}
+                                        <img src="{{ aux.producto.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;">
+                                    {% else %}
+                                        <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
+                                        <h6>No imagen</h6>
+                                    {% endif %}
+                                </td>
+                              <td> {{ aux.producto.nombre }}</td>
+                              
+                              <td style="text-align: center;">{{ aux.producto.precio | intcomma }}</td>
+                              <td style="text-align: center;">{{ aux.cantidad_prod}}</td>
+                              <td style="text-align: center;">{{ aux.subtotal_producto}}</td>
+                          </tr>
+                              {% endfor %}
+                      </tbody>
+                    </table>
+                        <p> Direccion de envio: {{orden.direccion_envio }} </p>
+                        <p>¿Suscrito al momento de la compra? : {% if orden.descuento_sub %}Si {% else %}No{% endif %}</p>
+                        <p>Total orden: ${{orden.precio_orden}}</p> 
+                    <p>Estado de la orden: {{orden.estado_orden.estado_orden}}</p>
+                            {% if orden.estado_orden.id == 1 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">validación</div>
+                             </div>
+                            {% elif orden.estado_orden.id == 2 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">preparación</div>
+                             </div>
+                            {% elif orden.estado_orden.id == 3 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">reparto</div>
+                             </div>
+                            {% elif orden.estado_orden.id == 4 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">entregado</div>
+                             </div>
+                            {% endif %}
+              </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+</body>
+{% endblock contenido %}

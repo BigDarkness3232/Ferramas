@@ -1,0 +1,118 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+        <br>
+        <h1>Carrito de compras</h1>
+        <br>
+        <a href="{% url 'carrito_borra_todo' %}" class="btn btn-danger mb-3 me-4" style="float: left;"><i class="fa-regular fa-trash-can"></i> borrar todo</a>
+    </div>
+    <div class="col-2"></div>
+    </div>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row-cols-auto ">
+        <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8 container">
+                <div class="row">
+                    <div class="col-8" style="text-align: center;">
+                        <div class="card" style="min-height: 350px;">
+                            <div class="card-body">
+                                <table class="table table-responsive-lg ">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">PRODUCTO</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">STOCK</th>
+                                        <th scope="col">PRECIO</th>
+                                        <th scope="col">CANTIDAD (Reservado)</th>
+                                        <th scope="col">SUBTOTAL</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody >
+                                        {% for aux in listaProductos %}
+                                        <tr>
+                                            <!--1-->
+                                            <th scope="row" class="align-middle"><a href="{% url 'carrito_eliminar' aux.producto_carrito.id %}"><i class="fa-regular fa-circle-xmark" style="color: #ff0000;"></i></a></th>
+                                            <!--2 PRODUCTO-->
+                                            <td><div>
+                                                    {% if aux.producto_carrito.imagen %}
+                                                        <img src="{{ aux.producto_carrito.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;"></td>
+                                                        
+                                                    {% else %}
+                                                        <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
+                                                        <h6 style="">No imagen</h6>
+                                                    {% endif %}
+                                                    
+                                                </div> 
+                                            </td>
+                                            <!--3 nombre-->
+                                            <td class="align-middle"><h7 style="">{{ aux.producto_carrito.nombre }} </h7></td>
+
+                                            <!--4 STOCK-->
+                                            <td class="align-middle">{{ aux.producto_carrito.stock | intcomma }}</td>
+                                            <!--5 PRECIO-->
+                                            <td class="align-middle">${{ aux.producto_carrito.precio | intcomma }}</td>
+                                            <!--6 CANTIDAD-->   
+                                            <!-- <td class="align-middle"><input value="1" min="1" max="{{ aux.producto_carrito.stock }}" type="number" id="idCantidad" class="form-control" /></td> -->
+                                            <td class="align-middle"><a href="{% url 'carrito_menos' aux.producto_carrito.id %}"> <i class="fa-regular fa-square-caret-down fa-lg"></i> </a> {{ aux.cantidad_prod}} <a href="{% url 'carrito_agregar' aux.producto_carrito.id %}"><i class="fa-regular fa-square-caret-up fa-lg"></i></a> </td> 
+                                            <!--7 SUBTOTAL-->
+                                            <td class="align-middle"><h7 style=""> ${{ aux.subtotal_producto | intcomma }} </h7></td>
+
+                                        </tr>
+                                            {% endfor %}
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card" style="min-height: 350px;">
+                            <div class="card-title ms-4 mt-2" style="text-align: center;"><h4>TOTAL DEL CARRITO</h4></div> 
+                            <div class="card-body">
+                                {% if is_sub == True %}
+                                    <p><del> Valor a pagar:  ${{ precio_clp | intcomma }} </del></p>
+                                    <p>Valor con descuento aplicado: ${{ descuento | intcomma }}</p>
+                                {% else %}
+                                    <p>Valor a pagar: ${{ precio_clp | intcomma }}</p>
+                                    <p>Descuento suscriptor no aplica </p>
+                                {% endif %}
+                            
+                                
+                                
+                                <p><a class="btn btn-warning btn-lg" href="{% url 'checkout' %}" role="button"> <i class="fa-solid fa-cash-register"></i> Proceder al pago</a></p>
+                            </div>                           
+                            
+                        </div>
+                    </div>
+                </div>         
+        </div>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col-8" style="align-content: center;">
+            
+        </div>
+        <div class="col-2 d-none d-lg-block "></div>
+    </div>
+</div>
+<!-- Para quitar los mensajes de agregar-->
+{% if messages %}
+        {% for message in messages %}
+        {% endfor %}
+    {% endif %}
+
+        </body>
+
+
+{% endblock contenido %}

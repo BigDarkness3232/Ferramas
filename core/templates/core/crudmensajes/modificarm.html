@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <br>
+                <h1 style="text-align: center;">Modificar Producto</h1>
+                <hr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <table>
+                    {{ form | crispy }}
+                  </table>
+                  <br>
+                  <a href="{% url 'menumensajes' %}" class="btn btn-primary mb-3 ms-4" style="float: left;">Volver</a>
+                  <input type="submit" class="btn btn-success" style="float: right;" value="Modificar">
+                </form>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</body>
+
+{% endblock contenido %}
+
+{% block js %}
+    {% if messages %} 
+        {% for aux in messages %} 
+            <script>
+                Swal.fire({
+                title: 'Confirmación',
+                text: '{{ aux }}',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Ver mensaje',
+                confirmButtonText: 'Volver al Menu'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/menumensajes/";
+                    }
+                  })
+            </script>
+        {% endfor %} 
+    {% endif %}
+{% endblock js %}

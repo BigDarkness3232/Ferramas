@@ -1,0 +1,181 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+        <br>
+        <h1>Verificar Orden</h1>
+        <br>
+        
+    </div>
+    <div class="col-2"></div>
+    </div>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row-cols-auto ">
+        <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8 container">
+                <div class="row">
+                    <div class="col-8 col-md-8" style="text-align: center;">
+                        <div class="card" style="min-height: 350px;">
+                            <div class="card-body">
+                                {% comment "" %} Direccion {% endcomment %}
+                                <div class="container mt-4">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Dirección de envío</h5>
+                                        <p class="card-text"> {{ user.direccion }}</p>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <br>
+                                <table class="table table-responsive-lg ">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">PRODUCTO</th>
+                                        <th scope="col"></th>
+                                        
+                                        <th scope="col">PRECIO</th>
+                                        <th scope="col">CANTIDAD</th>
+                                        <th scope="col">SUBTOTAL</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody >
+                                        {% for aux in listaProductos %}
+                                        <tr>
+                                            <!--1-->
+                                            <th scope="row" class="align-middle"></th>
+                                            <!--2 PRODUCTO-->
+                                            <td><div>
+                                                    {% if aux.producto_carrito.imagen %}
+                                                        <img src="{{ aux.producto_carrito.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;"></td>
+                                                        
+                                                    {% else %}
+                                                        <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
+                                                        <h6 style="">No imagen</h6>
+                                                    {% endif %}
+                                                    
+                                                </div> 
+                                            </td>
+                                            <!--3 nombre-->
+                                            <td class="align-middle"><h7 style="">{{ aux.producto_carrito.nombre }} </h7></td>
+                                            <!--5 PRECIO-->
+                                            <td class="align-middle">{{ aux.producto_carrito.precio | intcomma }}</td>
+                                            <!--6 CANTIDAD-->   
+                                            <!-- <td class="align-middle"><input value="1" min="1" max="{{ aux.producto_carrito.stock }}" type="number" id="idCantidad" class="form-control" /></td> -->
+                                            <td class="align-middle"> {{ aux.cantidad_prod}} </td> 
+                                            <!--7 SUBTOTAL-->
+                                            <td class="align-middle"><h7 style=""> {{ aux.subtotal_producto | intcomma }} </h7></td>
+
+                                        </tr>
+                                            {% endfor %}
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card" style="min-height: 350px; text-align: center;">
+                            <div class="card-title ms-4 mt-2"><h4>Resumen de compra</h4></div>
+                            <p>Precio en pesos chilenos: {{ precio_clp | intcomma }}</p>
+                            <p>Precio en dolares: {{ valor }}</p>
+                            <p>Tipo de cambio: ${{valor_dolar}}CLP = 1 dolar</p>
+                            <div id="btnPaypal"> </div>
+                           <a href="{% url 'registro_pedido' %}">prueba</a> 
+                            
+                        </div>
+                    </div>
+                </div>         
+        </div>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col-8" style="align-content: center;">
+            
+        </div>
+        <div class="col-2 d-none d-lg-block "></div>
+    </div>
+</div>
+
+
+{% endblock contenido %}
+{% block js %}
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+        env: 'sandbox',
+        client: {
+            sandbox: 'AfUBRUgTJgD4HE9G_a75eLmda41q2vkw6k7oiPess1hvr_KXL3EmnMkTCk7iWFtp6oTM28daEbs_--GM',
+            production: 'demo_production_client_id'
+        },
+        locale: 'es_CL',
+        style: {
+            size: 'large',
+            color: 'gold',
+            shape: 'rect'
+        },
+        commit: true,
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: { 
+                        total: '{{ valor }}', // EL TOTAL DEL CARRITO DE COMPRA
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                // LA LOGICA DE LO QUE PASA LUEGO DEL PAGO	
+                Swal.fire({
+                    title: 'Confirmación',
+                    text: 'Pago realizado correctamente!',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ir a pedidos'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/registro_pedido/";
+                    }
+                  })
+            });
+        },
+        onCancel(data) {
+            Swal.fire({
+                    title: 'Cancelado',
+                    text: 'Transacción cancelada!',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar'
+                })
+        },
+        onError(err) {
+            Swal.fire({
+                    title: 'Error',
+                    text: 'Ha ocurrido un error con el pago',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar'
+                })
+        }
+
+    }, '#btnPaypal');
+</script>
+{% endblock js %}

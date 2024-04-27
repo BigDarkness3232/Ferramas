@@ -1,0 +1,172 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+
+<body>
+    <!-- Carrusel-->
+    <div id="mainCarrusel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarrusel" data-bs-slide-to="0" class="active" aria-current="true"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#mainCarrusel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#mainCarrusel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <div class="carousel-inner">
+            
+            <div class="carousel-item active c-item">
+                <img src="{% static 'core/img/carrusel1.jpg' %}" class="c-img d-block w-100" alt="...">
+                <div class="carousel-caption top-0 mt-2">
+                    <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
+                    -webkit-text-stroke-color: black;">Decora tu jardin y ayuda a tu comunidad</p>
+                    <h1 class="display-3 fw-bolder" style="-webkit-text-stroke: 2px;
+                    -webkit-text-stroke-color: black;">5% de Descuento a usuarios suscritos</h1>
+                     <a href="{% url 'fundacion' %}" class=" btn btn-success px-4">Conocenos</a>
+                </div>
+            </div>
+            
+            {% for aux in listaMensajes %}
+            <div class="carousel-item c-item">
+                <img src="{{ aux.imagen.url }}" class="c-img d-block w-100" alt="...">
+                <div class="carousel-caption top-0 mt-2">
+                    <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
+                    -webkit-text-stroke-color: black;">{{ aux.descripcion }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+        
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarrusel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarrusel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+
+    <!--Grupo de imagenes Categorias -->
+    <div class="container-fluid pt-3">
+        <div class="row ">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8 container">
+                <div class="card-group" style="color: whitesmoke;">
+                    <div class="card carta">
+                        <a class="link-light c-img" href="{% url 'arbustos' %}">
+                            <img src="{% static 'core/img/medio-arbusto.jpg' %}" class="c-img card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h2 class="card-title anim-texto fw-bold"
+                                style="font-size: 21px;
+                                -webkit-text-stroke: 1px;
+                                -webkit-text-stroke-color: black;">Arbustos</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card carta ">
+                        <a class="link-light c-img" href="{% url 'flores' %}">
+                            <img src="{% static 'core/img/medio-flores.jpg' %}" class="c-img card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h2 class="card-title fw-bold"
+                                style="font-size: 21px;
+                                -webkit-text-stroke: 1px;
+                                -webkit-text-stroke-color: black;">Flores</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card carta">
+                        <a class="link-light c-img" href="{% url 'sustratos' %}">
+                            <img src="{% static 'core/img/medio-sustrato.jpg' %}" class="c-img card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h2 class="card-title fw-bold"
+                                style="font-size: 21px;
+                                -webkit-text-stroke: 1px;
+                                -webkit-text-stroke-color: black;">Sustratos</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card carta">
+                        <a class="link-light c-img" href="{% url 'macetas' %}">
+                            <img src="{% static 'core/img/medio-masetero.jpg' %}" class="c-img card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h2 class="card-title fw-bold"
+                                style="font-size: 21px;
+                                -webkit-text-stroke: 1px;
+                                -webkit-text-stroke-color: black;">Maceteros</h2>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card carta">
+                        <a class="link-light c-img" href="{% url 'herramientas' %}">
+                            <img src="{% static 'core/img/medio-herramienta.jpg' %}" class="c-img card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h2 class="card-title fw-bold"
+                                style="font-size: 21px;
+                                -webkit-text-stroke: 1px;
+                                -webkit-text-stroke-color: black;">Herramientas</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-2 d-none d-lg-block"></div>
+        </div>
+    </div>
+
+    <!--Producto Especiaes?-->
+    <div class="container-fluid pt-3">
+        <div class="row ">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col 8">
+                <div class="row row-cols-2 row-cols-md-4 g-4">
+                    {% for aux in listaProductos %}
+                    <div class="col mb-4">
+                        <div class="card carta-producto ">
+                            {% if aux.imagen %}
+                            <img class="card-img-top c-img" src="{{ aux.imagen.url }}" alt="Card image" style="height: 300px;">
+                            {% else %}
+                            <img class="card-img-top c-img" src="{% static 'core/img/logo.jpg' %}" alt="Card image" style="height: 300px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
+                                    <p class="card-text">{{ aux.nombre | title }}</p>
+                                    <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
+                            </div>
+                            <div class="card-footer mx-auto" style="border: none; text-align: center;">
+                                <a href="#" class="btn btn-light btn-outline-warning px-4">Detalles</a>
+                                <a href="" class="link-secondary">
+                                <i class="fa-solid fa-cart-shopping fa-lg"></i> </a>
+                                <a href="">
+                                <i class="fa-solid fa-heart fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-2 d-none d-lg-block"></div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8" style="align-content: center;">
+                <div class="row">
+                    <div class="col-3">
+                        
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-2 d-none d-lg-block "></div>
+        </div>
+    </div>
+
+</body>
+{% endblock contenido %}

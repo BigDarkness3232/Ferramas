@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block contenido %}
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                <br>
+                <h1 style="text-align: center;">Lista de pedidos</h1>
+                <br>
+                <div class="accordion" id="accordionExample">
+                    {% for aux in listaPedidos%}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree{{ aux.id}}" aria-expanded="false" aria-controls="collapseThree{{ aux.id}}">
+                            Pedido ID° 00{{ aux.id}}
+                          </button>
+                        </h2>
+                        <div id="collapseThree{{ aux.id}}" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <a href="{% url 'detalle_pedido' aux.id %}" class="btn btn-info mb-3 me-4" style="float: right;"><i class="fa-solid fa-circle-info"></i> detalle pedido</a>
+                            <p> Direccion de envio: {{aux.direccion_envio }} </p>
+                            <p>Pedido el: {{aux.creado_en}} | Precio: ${{aux.precio_orden}}</p>
+                            <p>Estado de la orden: {{aux.estado_orden.estado_orden}}</p>
+                            {% if aux.estado_orden.id == 1 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">validación</div>
+                             </div>
+                            {% elif aux.estado_orden.id == 2 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">preparación</div>
+                             </div>
+                            {% elif aux.estado_orden.id == 3 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">reparto</div>
+                             </div>
+                            {% elif aux.estado_orden.id == 4 %}
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">entregado</div>
+                             </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    <br>
+                    {% include 'core/paginator.html' %}
+                  </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-10 mx-auto">
+        <div class="d-flex justify-content-center mb-2">
+            
+        </div>
+    </div>
+</body>
+{% endblock contenido %}

@@ -1,0 +1,12 @@
+django == 4.2.1
+django-admin-interface
+django-crispy-forms
+crispy-bootstrap5
+pillow
+django-rest-framework
+django-paypal
+paypal-checkout-serversdk
+pymysql
+mysqlclient
+django-jazzmin
+python-dateutil

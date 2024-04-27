@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col-8" style="align-content: center;">
+            <div class="row">
+                <div class="col-12 col-md-8 offset-md-2" style="text-align: center;">
+                    <div class="card" style="min-height: 350px;">
+                        <div class="card-body">
+                            <div class="card-title"><h3>Registro de usuario</h3></div>                            
+                            <br>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form | crispy }}
+                                <br>  
+                                <button type="submit" class="btn btn-primary">Registrate</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 d-none d-lg-block "></div>
+    </div>
+</div>
+
+
+  
+{% endblock contenido %}

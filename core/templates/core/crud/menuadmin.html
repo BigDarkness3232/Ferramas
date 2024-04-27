@@ -1,0 +1,113 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+        <br>
+        <h1>Panel Administracion de Productos</h1>
+        <br>
+        <a href="{% url 'agregar' %}" class="btn btn-success mb-3 me-4" style="float: right;">Nuevo producto</a>
+    </div>
+    <div class="col-2"></div>
+    </div>
+    
+</div>
+
+<div class="container-fluid">
+    <div class="row-cols-auto ">
+        <div class="col-2 "></div>
+            <div class="col-8 container">
+                
+                    <table class="table table-responsive-sm">
+                        <thead>
+                          <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">nombre</th>
+                            <th scope="col">marca</th>
+                            <th scope="col">descripcion</th>
+                            <th scope="col">precio</th>
+                            <th scope="col">stock</th>
+                            <th scope="col">tipo</th>
+                            <th scope="col">imagen</th>
+                            <th scope="col"></th>
+                            <th scope="col">acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for aux in listaProductos %}
+                            <tr>
+                                
+                                    <th scope="row">{{ aux.id }}</th>
+                                    <td>{{ aux.nombre }}</td>
+                                    <td>{{ aux.marca }}</td>
+                                    <td>{{ aux.descripcion }}</td>
+                                    <td>{{ aux.precio | intcomma }}</td>
+                                    <td>{{ aux.stock }}</td>
+                                    <td>{{ aux.tipo }}</td>
+                                    
+                                    <td style="text-align: center;">
+                                        {% if aux.imagen %}
+                                            <img src="{{ aux.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;">
+                                        {% else %}
+                                            <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
+                                            <h6 style="">No imagen</h6>
+                                       {% endif %} </td>
+                                    <td>creado el:<p> {{ aux.creado_en }}</p> modificado el:<p> {{ aux.modificado_en }}</p></td>
+                                    <td>
+                                    
+                                        <div class="container">
+                                            <!--Modificar-->
+                                            <a href="{% url 'modificar' aux.id %}" class="btn btn-warning mb-2 " style="width: 100px;">modificar</a>
+                                            <br>
+                                            <!--Eliminar-->
+                                            <a href="#" onclick="eliminarProducto({{ aux.id }})" class="btn btn-danger " style="width: 100px;">eliminar</a>
+                                        </div>
+                                        
+                                    </td>
+                                    
+                                
+                            </tr>
+                                {% endfor %}
+                        </tbody>
+                      </table>
+                     
+        </div>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col-8" style="align-content: center;">
+            {% include 'core/paginator.html' %}
+
+        </div>
+        <div class="col-2 d-none d-lg-block "></div>
+    </div>
+</div>
+
+
+{% endblock contenido %}
+{% block js %}
+    <script >function eliminarProducto(id) {
+        Swal.fire({
+          title: '¿Está seguro de eliminar este producto?',
+          text: 'Esta accion no se puede revertir',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'No, cancelar',
+          confirmButtonText: 'Si, eliminar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire('Eliminado!','Producto Eliminado Correctamente','success').then(function() {
+                window.location.href = "/eliminar/"+id+"/";
+            })
+          }
+        })
+    }</script>
+{% endblock %}

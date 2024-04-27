@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+
+<body>
+    <body>
+        <div class="container">
+          <div class="row">
+            <!-- Columna vacía de 2 columnas -->
+            <div class="col-lg-2 d-none d-lg-block"></div>
+      
+            <!-- Columna principal de 8 al centro -->
+            <div class="col-lg-8">
+
+                <h1>Sobre Nosotros</h1>
+                <div class="image" style="">
+                    <img src="{% static 'core/img/fundacion.png' %}" class="img-fluid w-100" alt="Fundacion" >
+                </div>
+                <p>La Fundación VidaVerde es una organización dedicada al cuidado y fomento de las áreas verdes en nuestra comunidad. Nuestra misión es promover la conservación y restauración de los espacios naturales, así como crear conciencia sobre la importancia de preservar y disfrutar de entornos verdes para mejorar la calidad de vida de las personas.</p>
+            
+                <div class="">
+                  <h2>Hemos podido:</h2>
+                  
+                  <p>Creación de parques y jardines: Hemos trabajado incansablemente en la creación de nuevos parques y jardines en diferentes áreas de la comunidad. Estos espacios verdes brindan lugares de recreación y esparcimiento para las familias, promoviendo un contacto directo con la naturaleza.</p>
+                  <div class="image">
+                    <img src="{% static 'core/img/espacios_verdes.jpg' %}" class="img-fluid" alt="Fundacion" >
+                  </div>
+                  
+                  <p>Programas de educación ambiental: Hemos implementado programas educativos enfocados en la concientización sobre la importancia de las áreas verdes. A través de charlas, talleres y actividades interactivas, enseñamos a niños y adultos sobre la importancia de proteger y valorar nuestro entorno natural.</p>
+                </div>
+                
+                <p>Alcanzar estos hitos ha sido posible gracias al apoyo y participación activa de la comunidad. Seguimos trabajando arduamente para expandir nuestras iniciativas y promover un mayor compromiso con la preservación de las áreas verdes, con el objetivo de construir un futuro sostenible y saludable para todos.</p>
+                <p>Al donar te subscribes automaticamente y gozaras de un 5% de descuento en todas tus compras</p>
+                {% if user.is_authenticated %}
+                <h6 class="text-muted">La renovacion de la subscripcion NO es automatica.</h6>
+                <h6 class="text-muted">si ya estas suscrito, tu fecha de renovacion aumentara en un mes</h6>
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <table>
+                    {{ form | crispy }}
+                </table>
+                <br>
+                
+                    <input type="submit" class="btn btn-success mb-3 me-4"  style="float: right;" value="Iniciar donación">
+                </form>
+                
+                {% else %}
+                  <h3>Debes ingresar a tu cuenta para donar</h3>
+                {% endif %}
+                
+            </div>
+      
+            <!-- Columna vacía de 2 columnas -->
+            <div class="col-lg-2 d-none d-lg-block"></div>
+          </div>
+        </div>
+      
+        
+      </body> 
+</body>
+
+
+
+{% endblock contenido %}

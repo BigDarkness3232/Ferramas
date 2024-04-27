@@ -1,0 +1,92 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+{% load humanize %}
+<body>
+    <div class="container-fluid pt-3">
+        <div class="row ">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8 container" style="text-align: center;">
+                <h1>Flores</h1>
+
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Flores</li>
+                    </ol>
+                  </nav>
+            </div>
+            <div class="col-2 d-none d-lg-block"></div>
+        </div>
+    </div>
+
+    <div class="container-fluid pt-3">
+        <div class="row ">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8 container">
+                    <!-- (1) -->
+                    
+                <div class="row row-cols-2 row-cols-md-4 g-4">
+                    {% for aux in listaProductos %}
+                    <div class="col mb-4">
+                        <div class="card carta-producto ">
+                            {% if aux.imagen %}
+                            <img class="card-img-top c-img" src="{{ aux.imagen.url }}" alt="Card image" style="height: 300px;">
+                            {% else %}
+                            <img class="card-img-top c-img" src="{% static 'core/img/logo.jpg' %}" alt="Card image" style="height: 300px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
+                                    <p class="card-text">{{ aux.nombre | title }}</p>
+                                    <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
+                                    <p class="text-muted">Stock: {{ aux.stock }}</p>
+                            </div>
+                            <div class="card-footer mx-auto" style="border: none; text-align: center;">
+                                
+                                {% if user.is_authenticated %}
+                                    {% if aux.stock == 0 %}
+                                        <p>No disponible</p>
+                                    {% else %}
+                                    <a href="{% url 'carrito_agregar' aux.id %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                    
+            </div>
+            <div class="col-2 d-none d-lg-block"></div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-2 d-none d-lg-block"></div>
+            <div class="col-8" style="align-content: center;">
+                {% include 'core/paginator.html' %}
+
+
+            </div>
+            <div class="col-2 d-none d-lg-block "></div>
+        </div>
+    </div>
+
+    <script src="{% static '/core/js/msj_agr_carrito.js' %}"></script>
+    {% if messages %}
+        {% for message in messages %}
+          <script>
+            Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Producto agregado al carrito',
+            showConfirmButton: false,
+            timer: 1200
+          }) </script> 
+        {% endfor %}
+    {% endif %}
+</body>
+
+{% endblock contenido %}
