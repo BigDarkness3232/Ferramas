@@ -18,11 +18,11 @@ urlpatterns = [
     	path('', index, name="index"),
         path('registro/', registro, name='registro'),
         # Productos
-        path('productos/arbustos/', arbustos, name="arbustos"),
-		path('productos/flores/', flores, name="flores"),
-        path('productos/herramientas/', herramientas, name="herramientas"),
-        path('productos/macetas/', macetas, name="macetas"),
-        path('productos/sustratos/', sustratos, name="sustratos"),
+        path('productos/Herramientas electricas/', arbustos, name="Herramientas electricas"),
+		path('productos/Maquinas de soldar/', flores, name="Maquinas de soldar"),
+        path('productos/Herramientas generales/', herramientas, name="Herramientas generales"),
+        path('productos/Clavos y tornillos/', macetas, name="Clavos y tornillos"),
+        path('productos/Productos de limpiezas/', sustratos, name="Productos de limpiezas"),
         # Fundacion/Donar/Sub
         path('fundacion/', fundacion, name="fundacion"),
         path('subscripcion/', subscripcion, name="subscripcion"),

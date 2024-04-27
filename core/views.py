@@ -94,7 +94,7 @@ def arbustos(request):
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/arbustos.html', data)
+    return render(request, 'core/productos/Herramientas electricas.html', data)
 
 def flores(request):
     productos = Producto.objects.filter(tipo_id = "2")
@@ -110,7 +110,7 @@ def flores(request):
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/flores.html', data)
+    return render(request, 'core/productos/Maquinas de soldar.html', data)
 
 def sustratos(request):
     productos = Producto.objects.filter(tipo_id = "3")
@@ -126,7 +126,7 @@ def sustratos(request):
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/sustratos.html', data)
+    return render(request, 'core/productos/Herramientas generales.html', data)
 
 def macetas(request):
     productos = Producto.objects.filter(tipo_id = "4")
@@ -142,7 +142,7 @@ def macetas(request):
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/macetas.html', data)
+    return render(request, 'core/productos/Clavos y tornillos.html', data)
 
 def herramientas(request):
     productos = Producto.objects.filter(tipo_id = "5").all()
@@ -158,7 +158,7 @@ def herramientas(request):
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/herramientas.html', data)
+    return render(request, 'core/productos/Productos de limpiezas.html', data)
 
 #<-- Fin Productos -->
 
