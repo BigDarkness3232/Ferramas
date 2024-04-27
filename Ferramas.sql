@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `web_blume`
 --
-CREATE DATABASE IF NOT EXISTS `web_blume` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `web_blume`;
+CREATE DATABASE IF NOT EXISTS `Ferramas` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `Ferramas`;
 
 -- --------------------------------------------------------
 

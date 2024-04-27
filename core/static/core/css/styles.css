@@ -30,6 +30,7 @@ body{
  background-size: cover;
  background-repeat: no-repeat;
  background-attachment: fixed;
+ background-color: #F8C471;
 }
 
 .link-light:hover h2{
@@ -41,5 +42,5 @@ a {
 }
 
 a:hover {
-    color: limegreen;
+    color: #F8C471;
 }

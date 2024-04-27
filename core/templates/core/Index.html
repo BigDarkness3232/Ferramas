@@ -15,19 +15,9 @@
 
         <div class="carousel-inner">
             
-            <div class="carousel-item active c-item">
-                <img src="{% static 'core/img/carrusel1.jpg' %}" class="c-img d-block w-100" alt="...">
-                <div class="carousel-caption top-0 mt-2">
-                    <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
-                    -webkit-text-stroke-color: black;">Decora tu jardin y ayuda a tu comunidad</p>
-                    <h1 class="display-3 fw-bolder" style="-webkit-text-stroke: 2px;
-                    -webkit-text-stroke-color: black;">5% de Descuento a usuarios suscritos</h1>
-                     <a href="{% url 'fundacion' %}" class=" btn btn-success px-4">Conocenos</a>
-                </div>
-            </div>
             
             {% for aux in listaMensajes %}
-            <div class="carousel-item c-item">
+            <div class="carousel-item active c-item">
                 <img src="{{ aux.imagen.url }}" class="c-img d-block w-100" alt="...">
                 <div class="carousel-caption top-0 mt-2">
                     <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
@@ -53,26 +43,26 @@
         <div class="row ">
             <div class="col-2 d-none d-lg-block"></div>
             <div class="col-8 container">
-                <div class="card-group" style="color: whitesmoke;">
+                <div class="card-group" style="color: #F8C471;">
                     <div class="card carta">
                         <a class="link-light c-img" href="{% url 'arbustos' %}">
-                            <img src="{% static 'core/img/medio-arbusto.jpg' %}" class="c-img card-img" alt="...">
+                            <img src="{% static 'core/img/Taladro Percutor.png' %}" class="c-img card-img" alt="...">
                             <div class="card-img-overlay">
                                 <h2 class="card-title anim-texto fw-bold"
                                 style="font-size: 21px;
                                 -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Arbustos</h2>
+                                -webkit-text-stroke-color: black;">Herramientas electricas</h2>
                             </div>
                         </a>
                     </div>
                     <div class="card carta ">
                         <a class="link-light c-img" href="{% url 'flores' %}">
-                            <img src="{% static 'core/img/medio-flores.jpg' %}" class="c-img card-img" alt="...">
+                            <img src="{% static 'core/img/maquina de soldar.png' %}" class="c-img card-img" alt="...">
                             <div class="card-img-overlay">
                                 <h2 class="card-title fw-bold"
                                 style="font-size: 21px;
                                 -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Flores</h2>
+                                -webkit-text-stroke-color: black;">Maquina de soldar</h2>
                             </div>
                         </a>
                     </div>
@@ -83,7 +73,7 @@
                                 <h2 class="card-title fw-bold"
                                 style="font-size: 21px;
                                 -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Sustratos</h2>
+                                -webkit-text-stroke-color: black;">Herramientas generales</h2>
                             </div>
                         </a>
                     </div>
@@ -94,7 +84,7 @@
                                 <h2 class="card-title fw-bold"
                                 style="font-size: 21px;
                                 -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Maceteros</h2>
+                                -webkit-text-stroke-color: black;">Clavos y tornillos</h2>
                             </div>
                         </a>
                     </div>
@@ -105,7 +95,7 @@
                                 <h2 class="card-title fw-bold"
                                 style="font-size: 21px;
                                 -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Herramientas</h2>
+                                -webkit-text-stroke-color: black;">Productos de limpieza</h2>
                             </div>
                         </a>
                     </div>
