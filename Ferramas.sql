@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `web_blume`
+-- Base de datos: `Feramas`
 --
 CREATE DATABASE IF NOT EXISTS `Ferramas` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 USE `Ferramas`;
@@ -316,7 +316,7 @@ CREATE TABLE `core_marca` (
 --
 
 INSERT INTO `core_marca` (`id`, `nombre_marca`) VALUES
-(1, 'Blume');
+(1, 'ferramas');
 
 -- --------------------------------------------------------
 
@@ -427,11 +427,11 @@ CREATE TABLE `core_tipoproducto` (
 --
 
 INSERT INTO `core_tipoproducto` (`id`, `nombreTipoProducto`) VALUES
-(1, 'Arbustos'),
-(2, 'Flores'),
-(3, 'Sustratos'),
-(4, 'Maceteros'),
-(5, 'Herramientas');
+(1, 'herramientas electricas'),
+(2, 'maquinas de soldar'),
+(3, 'herramientas generales'),
+(4, 'clavos y tornillos'),
+(5, 'productos de limpieza');
 
 -- --------------------------------------------------------
 
