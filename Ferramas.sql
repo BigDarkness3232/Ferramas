@@ -386,17 +386,6 @@ CREATE TABLE `core_producto` (
 -- Volcado de datos para la tabla `core_producto`
 --
 
-INSERT INTO `core_producto` (`id`, `imagen`, `nombre`, `descripcion`, `precio`, `stock`, `creado_en`, `modificado_en`, `marca_id`, `tipo_id`) VALUES
-(2, 'productos/arb-nube.jpg', 'Arbusto Nube', 'Arbusto Nube', 2222, 5, '2023-06-06', '2023-06-25', 1, 1),
-(3, 'productos/arkein.webp', 'Arbusto Arbusto', 'Arbusto Arbusto', 2222, 2, '2023-06-06', '2023-06-25', 1, 1),
-(4, 'productos/cultivador-jardin.webp', 'Cultivador', 'Cultivador', 5900, 10, '2023-06-06', '2023-06-25', 1, 5),
-(5, 'productos/flor.jpg', 'Flor Loto', 'Flor Loto', 6666, 10, '2023-06-06', '2023-06-25', 1, 2),
-(6, 'productos/Flor4.webp', 'Girasoles', 'Girasoles', 990, 14, '2023-06-06', '2023-06-25', 1, 2),
-(7, 'productos/mac5.jpg', 'Macetero bob patiño', 'Macetero bob patiño', 9990, 10, '2023-06-06', '2023-06-25', 1, 4),
-(8, 'productos/mac6.jpg', 'Cilindro Cyan', 'Macetero Cilindro Cyan', 9900, 10, '2023-06-06', '2023-06-25', 1, 4),
-(9, 'productos/tijeras-poda.webp', 'Tijera poda', 'Tijera poda', 6990, 8, '2023-06-06', '2023-06-25', 1, 5),
-(10, 'productos/th3.jpg', 'Sustrato rejuvenedor', 'Sustrato rejuvenedor', 15990, 10, '2023-06-06', '2023-06-25', 1, 3),
-(11, 'productos/th3_UZrHTlh.jpg', 'Tierra de Hojas', 'Tierra de Hojas organico', 15990, 10, '2023-06-06', '2023-06-25', 1, 3);
 
 -- --------------------------------------------------------
 
