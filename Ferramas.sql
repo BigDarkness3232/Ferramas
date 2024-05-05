@@ -386,6 +386,17 @@ CREATE TABLE `core_producto` (
 -- Volcado de datos para la tabla `core_producto`
 --
 
+INSERT INTO `core_producto` (`id`, `imagen`, `nombre`, `descripcion`, `precio`, `stock`, `creado_en`, `modificado_en`, `marca_id`, `tipo_id`) VALUES
+(2, 'productos/776785_17.jpg', 'Caja de Clavos', 'Caja de clavos', 12, 5, '2024-05-04', '2024-05-20', 1, 4),
+(3, 'productos/Atornillador.png', 'Atornillador', 'Atornillador', 14, 2, '2024-05-04', '2024-05-20', 1, 1),
+(4, 'productos/Barras de Soldar.png', 'iodos para soldar', 'iodos para soldar', 1, 10, '2024-05-04', '2024-05-20', 1, 2),
+(5, 'productos/alicates-universal-aislados-vde.jpg', 'Alicates', 'Alicates', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
+(6, 'productos/brocha-condecora-112-hela.jpg', 'Brocha', 'Brocha', 15, 14, '2024-05-04', '2024-05-20', 1, 3),
+(7, 'productos/caiman-boca-plana-7-1502l3-vise-grip.jpg', 'Alicate caiman', 'Alicate caiman', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
+(8, 'productos/caja-herramientas-naranja-22-truper.jpg', 'Caja para Herramientas', 'Caja para Herramientas', 16, 10, '2024-05-04', '2024-05-20', 1, 3),
+(9, 'productos/candados-profesional-linea-300.jpg', 'Candado', 'Candado', 17, 8, '2024-05-04', '2024-05-20', 1, 3),
+(10, 'productos/casco-para-soldar-visor-alzable-fs701-parkson.jpg', 'Casco para soldar', 'Casco para soldar', 24, 10, '2024-05-04', '2024-05-20', 1, 2),
+(11, 'productos/escobillon-de-nylon-y-mango-metalico.jpg', 'Escoba', 'Escoba', 9, 10, '2024-05-04', '2024-05-20', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -417,7 +428,7 @@ CREATE TABLE `core_tipoproducto` (
 
 INSERT INTO `core_tipoproducto` (`id`, `nombreTipoProducto`) VALUES
 (1, 'herramientas electricas'),
-(2, 'maquinas de soldar'),
+(2, 'Herramientas para soldar'),
 (3, 'herramientas generales'),
 (4, 'clavos y tornillos'),
 (5, 'productos de limpieza');
