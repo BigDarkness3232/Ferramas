@@ -56,7 +56,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
                                 <p class="card-text">{{ aux.nombre | title }}</p>
-                                <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
+                                <h5 class="card-title">${{  valor   }}</h4>
                                 <p class="text-muted">Stock: {{ aux.stock }}</p>
                         </div>
                         <div class="card-footer mx-auto" style="border: none; text-align: center;">
@@ -105,3 +105,34 @@
     {% endif %}
 </body>
 {% endblock contenido %}
+{% block js %}
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+        env: 'sandbox',
+        client: {
+            sandbox: 'AfUBRUgTJgD4HE9G_a75eLmda41q2vkw6k7oiPess1hvr_KXL3EmnMkTCk7iWFtp6oTM28daEbs_--GM',
+            production: 'demo_production_client_id'
+        },
+        locale: 'es_CL',
+        style: {
+            size: 'large',
+            color: 'gold',
+            shape: 'rect'
+        },
+        commit: true,
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: { 
+                        total: '{{ valor }}', // EL TOTAL DEL CARRITO DE COMPRA
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        
+
+    }, '#btnPaypal');
+</script>
+{% endblock js %}
