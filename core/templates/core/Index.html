@@ -46,124 +46,83 @@
     </div>
 
     <!--Grupo de imagenes Categorias -->
-    <div class="container-fluid pt-3">
-        <div class="row ">
-            <div class="col-2 d-none d-lg-block"></div>
-            <div class="col-8 container">
-                <div class="card-group" style="color: #F8C471;">
-                    <div class="card carta">
-                        <a class="link-light c-img" href="{% url 'Herramientas electricas' %}">
-                            <img src="{% static 'core/img/Taladro Percutor.png' %}" class="c-img card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h2 class="card-title anim-texto fw-bold"
-                                style="font-size: 21px;
-                                -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Herramientas electricas</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card carta ">
-                        <a class="link-light c-img" href="{% url 'Maquinas de soldar' %}">
-                            <img src="{% static 'core/img/maquina de soldar.png' %}" class="c-img card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h2 class="card-title fw-bold"
-                                style="font-size: 21px;
-                                -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Herramientas para soldar</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card carta">
-                        <a class="link-light c-img" href="{% url 'Herramientas generales' %}">
-                            <img src="{% static 'core/img/bolsa-basura-polinasa-110-cm-x-130-cm.jpg' %}" class="c-img card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h2 class="card-title fw-bold"
-                                style="font-size: 21px;
-                                -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Productos de limpieza</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card carta">
-                        <a class="link-light c-img" href="{% url 'Clavos y tornillos' %}">
-                            <img src="{% static 'core/img/Clavos.jpg' %}" class="c-img card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h2 class="card-title fw-bold"
-                                style="font-size: 21px;
-                                -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Clavos y tornillos</h2>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="card carta">
-                        <a class="link-light c-img" href="{% url 'Productos de limpiezas' %}">
-                            <img src="{% static 'core/img/martillo-carpintero.jpg' %}" class="c-img card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h2 class="card-title fw-bold"
-                                style="font-size: 21px;
-                                -webkit-text-stroke: 1px;
-                                -webkit-text-stroke-color: black;">Herramientas generales</h2>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="col-2 d-none d-lg-block"></div>
-        </div>
-    </div>
-
+    
     <!--Producto Especiaes?-->
-    <div class="container-fluid pt-3">
-        <div class="row ">
-            <div class="col-2 d-none d-lg-block"></div>
-            <div class="col 8">
-                <div class="row row-cols-2 row-cols-md-4 g-4">
-                    {% for aux in listaProductos %}
-                    <div class="col mb-4">
-                        <div class="card carta-producto ">
-                            {% if aux.imagen %}
-                            <img class="card-img-top c-img" src="{{ aux.imagen.url }}" alt="Card image" style="height: 300px;">
-                            {% else %}
-                            <img class="card-img-top c-img" src="{% static 'core/img/logo.jpg' %}" alt="Card image" style="height: 300px;">
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
-                                    <p class="card-text">{{ aux.nombre | title }}</p>
-                                    <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
-                            </div>
-                            <div class="card-footer mx-auto" style="border: none; text-align: center;">
-                                <a href="#" class="btn btn-light btn-outline-warning px-4">Detalles</a>
-                                <a href="" class="link-secondary">
-                                <i class="fa-solid fa-cart-shopping fa-lg"></i> </a>
-                                <a href="">
-                                <i class="fa-solid fa-heart fa-lg"></i></a>
+
+    <body>
+        <!--Contenidos-->
+    
+        <div class="container-fluid pt-3">
+            <div class="row ">
+                <div class="col-2 d-none d-lg-block"></div>
+                <div class="col-8 container" style="text-align: center;">
+                    <h1>Todos los productos</h1>
+                </div>
+                <div class="col-2 d-none d-lg-block"></div>
+            </div>
+        </div>
+    
+        <div class="container-solid pt-3">
+            <div class="row ">
+                <div class="col-2 d-none d-lg-block"></div>
+                <div class="col-8 container">
+                    <!-- Aqui -->
+                    <div class="row">
+                        {% for aux in listaProductos %}
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-4" style="width: 18rem;">
+                            <div class="card carta-producto " >
+                                {% if aux.imagen %}
+                                <img class="card-img-top c-img" src="{{ aux.imagen }}" alt="Card image" style="height: 300px;" >
+                                {% else %}
+                                <img class="card-img-top c-img" src="{% static 'core/img/logo.jpg' %}" alt="Card image" style="height: 300px;">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ aux.marca.nombre_marca | capfirst }}</h4>
+                                        <p class="card-text">{{ aux.nombre | title }}</p>
+                                        <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
+                                        <p class="text-muted">Stock: {{ aux.stock }}</p>
+                                </div>
+                                <div class="card-footer mx-auto" style="border: none; text-align: center;">
+                                     
+                                    {% if user.is_authenticated %}
+                                        {% if aux.stock == 0 %}
+                                            <p>No disponible</p>
+                                        {% else %}
+                                        <button href="{% url 'pedidos' %}">detalles</button>
+                                        <a href="{% url 'carrito_agregar' aux.id %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-2 d-none d-lg-block"></div>
-        </div>
-    </div>
-
-    <div class="container-fluid p-3">
-        <div class="row">
-            <div class="col-2 d-none d-lg-block"></div>
-            <div class="col-8" style="align-content: center;">
-                <div class="row">
-                    <div class="col-3">
-                        
+                        {% endfor %}
                     </div>
                 </div>
-
-
+                <div class="col-2 d-none d-lg-block"></div>
             </div>
-            <div class="col-2 d-none d-lg-block "></div>
         </div>
-    </div>
-
-</body>
+    
+        <div class="container-fluid p-3">
+            <div class="row">
+                <div class="col-2 d-none d-lg-block"></div>
+                <div class="col-8" style="align-content: center;">
+                    <!-- {% include 'core/paginator.html' %} -->
+                </div>
+                <div class="col-2 d-none d-lg-block "></div>
+            </div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+              <script>
+                Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Producto agregado al carrito',
+                showConfirmButton: false,
+                timer: 1200
+              }) </script> 
+            {% endfor %}
+        {% endif %}
+    </body>
 {% endblock contenido %}

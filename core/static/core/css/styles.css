@@ -2,7 +2,7 @@
     height: 450px;
 }
 
-.c-img{
+/* .c-img{
     height: 100%;
     object-fit: cover;
 }
@@ -14,16 +14,16 @@
     min-width: 125px;
     max-width: 250px;
     justify-content: start;
-}
+} */
 
-.carta-producto{
+/* .carta-producto{
     color: black;
     min-height: 160px;
     
     min-width: 125px;
     max-width: 325px;
     justify-content: start;
-}
+} */
 
 body{
  background-image: url();
@@ -44,3 +44,28 @@ a {
 a:hover {
     color: #F8C471;
 }
+
+.carta-producto {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .c-img {
+    width: 100%;
+    height: auto;
+  }
+  .card-body {
+    padding: 1rem;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .card-text {
+    margin-bottom: 0.75rem;
+  }
+  .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #ccc;
+    padding: 0.75rem 1rem;
+  }

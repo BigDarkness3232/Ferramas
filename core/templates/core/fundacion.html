@@ -17,7 +17,7 @@
 
                 <h1>Sobre Nosotros</h1>
                 <div class="image" style="">
-                    <img src="{% static 'core/img/fundacion.png' %}" class="img-fluid w-100" alt="Fundacion" >
+                    <img src="{% static 'core/img/Ferramas logo .png' %}" class="img-fluid w-100" alt="Fundacion" >
                 </div>
                 <p>En FERREMAS, nos enorgullece ser tu aliado en el mundo de la construcción y la ferretería desde la década de los 50, en la comuna de Santiago, nos hemos consolidado como una de las distribuidoras líderes en la región metropolitana y con planes de expansión a lo largo de todo Chile.</p>
             
@@ -26,30 +26,13 @@
                   
                   <p>Nuestra misión es ofrecer a nuestros clientes una experiencia de compra excepcional, proporcionando productos de alta calidad, asesoramiento experto y un servicio personalizado que satisfaga todas sus necesidades en proyectos de construcción y renovación.</p>
                   <div class="image">
-                    <img src="{% static 'core/img/espacios_verdes.jpg' %}" class="img-fluid" alt="Fundacion" >
+                    <img src="{% static 'core/img/soldar.jpg' %}" class="img-fluid" alt="Fundacion" >
                   </div>
                   
                   <p>En FERREMAS, nos preocupamos por nuestra comunidad y el medio ambiente. Nos esforzamos por contribuir al desarrollo sostenible y apoyamos iniciativas locales que promueven el bienestar de nuestra sociedad y el cuidado de nuestro entorno natural.</p>
                 </div>
                 
-                <p>Te invitamos a formar parte de la familia FERREMAS y a descubrir todo lo que tenemos para ofrecerte. Ya seas un profesional de la construcción, un aficionado al bricolaje o simplemente alguien que busca herramientas y materiales de calidad, ¡estamos aquí para ayudarte a hacer realidad tus proyectos!</p>
-                {% if user.is_authenticated %}
-                <h6 class="text-muted">La renovacion de la subscripcion NO es automatica.</h6>
-                <h6 class="text-muted">si ya estas suscrito, tu fecha de renovacion aumentara en un mes</h6>
-                <form action="" method="POST" enctype="multipart/form-data">
-                  {% csrf_token %}
-                <table>
-                    {{ form | crispy }}
-                </table>
-                <br>
-                
-                    <input type="submit" class="btn btn-success mb-3 me-4"  style="float: right;" value="Iniciar donación">
-                </form>
-                
-                {% else %}
-                  <h3>Debes ingresar a tu cuenta para donar</h3>
-                {% endif %}
-                
+                 
             </div>
       
             <!-- Columna vacía de 2 columnas -->

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2023 a las 11:24:35
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 15-05-2024 a las 01:08:21
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,10 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `Ferramas`
+-- Base de datos: `ferramas`
 --
-CREATE DATABASE IF NOT EXISTS `Ferramas` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `Ferramas`;
 
 -- --------------------------------------------------------
 
@@ -41,6 +39,7 @@ CREATE TABLE `auth_group` (
 INSERT INTO `auth_group` (`id`, `name`) VALUES
 (2, 'administrador'),
 (1, 'cliente'),
+(4, 'contador'),
 (3, 'vendedor');
 
 -- --------------------------------------------------------
@@ -267,6 +266,13 @@ CREATE TABLE `core_carrito` (
   `producto_carrito_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `core_carrito`
+--
+
+INSERT INTO `core_carrito` (`id`, `cantidad_prod`, `id_usuario_id`, `producto_carrito_id`) VALUES
+(45, 2, 1, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -388,15 +394,14 @@ CREATE TABLE `core_producto` (
 
 INSERT INTO `core_producto` (`id`, `imagen`, `nombre`, `descripcion`, `precio`, `stock`, `creado_en`, `modificado_en`, `marca_id`, `tipo_id`) VALUES
 (2, 'productos/776785_17.jpg', 'Caja de Clavos', 'Caja de clavos', 12, 5, '2024-05-04', '2024-05-20', 1, 4),
-(3, 'productos/Atornillador.png', 'Atornillador', 'Atornillador', 14, 2, '2024-05-04', '2024-05-20', 1, 1),
+(3, 'productos/Atornillador.png', 'Atornillador', 'Atornillador', 14, 0, '2024-05-04', '2024-05-14', 1, 1),
 (4, 'productos/Barras de Soldar.png', 'iodos para soldar', 'iodos para soldar', 1, 10, '2024-05-04', '2024-05-20', 1, 2),
-(5, 'productos/alicates-universal-aislados-vde.jpg', 'Alicates', 'Alicates', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
-(6, 'productos/brocha-condecora-112-hela.jpg', 'Brocha', 'Brocha', 15, 14, '2024-05-04', '2024-05-20', 1, 3),
-(7, 'productos/caiman-boca-plana-7-1502l3-vise-grip.jpg', 'Alicate caiman', 'Alicate caiman', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
-(8, 'productos/caja-herramientas-naranja-22-truper.jpg', 'Caja para Herramientas', 'Caja para Herramientas', 16, 10, '2024-05-04', '2024-05-20', 1, 3),
-(9, 'productos/candados-profesional-linea-300.jpg', 'Candado', 'Candado', 17, 8, '2024-05-04', '2024-05-20', 1, 3),
-(10, 'productos/casco-para-soldar-visor-alzable-fs701-parkson.jpg', 'Casco para soldar', 'Casco para soldar', 24, 10, '2024-05-04', '2024-05-20', 1, 2),
-(11, 'productos/escobillon-de-nylon-y-mango-metalico.jpg', 'Escoba', 'Escoba', 9, 10, '2024-05-04', '2024-05-20', 1, 5);
+(5, 'productos/brocha-condecora-112-hela.jpg', 'Brocha', 'Brocha', 15, 14, '2024-05-04', '2024-05-20', 1, 3),
+(6, 'productos/caiman-boca-plana-7-1502l3-vise-grip.jpg', 'Alicate caiman', 'Alicate caiman', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
+(7, 'productos/caja-herramientas-naranja-22-truper.jpg', 'Caja para Herramientas', 'Caja para Herramientas', 16, 10, '2024-05-04', '2024-05-20', 1, 3),
+(8, 'productos/candados-profesional-linea-300.jpg', 'Candado', 'Candado', 17, 8, '2024-05-04', '2024-05-20', 1, 3),
+(9, 'productos/casco-para-soldar-visor-alzable-fs701-parkson.jpg', 'Casco para soldar', 'Casco para soldar', 24, 10, '2024-05-04', '2024-05-20', 1, 2),
+(10, 'productos/escobillon-de-nylon-y-mango-metalico.jpg', 'Escoba', 'Escoba', 9, 10, '2024-05-04', '2024-05-20', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -459,9 +464,11 @@ CREATE TABLE `core_usuario` (
 --
 
 INSERT INTO `core_usuario` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `direccion`) VALUES
-(1, 'pbkdf2_sha256$600000$nZ4t5kRpffZfikB5VWd252$izPHj/jtQuTAoMlccpxN1sZVG3CXDjwkWzQCgRYjSsY=', '2023-06-25 09:13:54.814555', 1, 'admin', 'admin', 'admin', 'fre.cardenas@duocuc.cl', 1, 1, '2023-06-24 05:45:36.000000', 'Hyrule 234'),
+(1, 'pbkdf2_sha256$600000$nZ4t5kRpffZfikB5VWd252$izPHj/jtQuTAoMlccpxN1sZVG3CXDjwkWzQCgRYjSsY=', '2024-05-14 23:04:18.875145', 1, 'admin', 'admin', 'admin', 'fre.cardenas@duocuc.cl', 1, 1, '2023-06-24 05:45:36.000000', 'Hyrule 234'),
 (4, 'pbkdf2_sha256$600000$xEQ7Nn78vLhH1mApbujqD6$gj9W8D9wQSrzCubinWEBvG/j9SVr2omRfHekP2jUMQk=', '2023-06-25 08:54:52.195836', 0, 'ArmorStand2', 'Alfredo', 'Turbina', 'alfredoturbina@gmail.com', 0, 1, '2023-06-24 07:45:48.495135', 'Rio mapocho numero 1122'),
-(5, 'pbkdf2_sha256$600000$mH6BwwUjtt8LqV54kmPVDN$aVk4u2Bgn9sA03E9LhMG8Qo79iTA8GUMP9onUr0PloE=', '2023-06-25 09:00:02.041466', 0, 'VendeDoor', 'Jordan', 'Belfort', 'thewolf@wallstreet.com', 0, 1, '2023-06-24 08:02:28.000000', '1 Wall Street');
+(5, 'pbkdf2_sha256$600000$mH6BwwUjtt8LqV54kmPVDN$aVk4u2Bgn9sA03E9LhMG8Qo79iTA8GUMP9onUr0PloE=', '2023-06-25 09:00:02.041466', 0, 'VendeDoor', 'Jordan', 'Belfort', 'thewolf@wallstreet.com', 0, 1, '2023-06-24 08:02:28.000000', '1 Wall Street'),
+(7, 'pbkdf2_sha256$600000$w1iXynrdVWoPMjaggUmTQn$Nr2CWYVXBXbz2b9ITkzfg8x29R52/d7yLsLetRjCYaY=', NULL, 0, 'elnegrou', 'freddy', 'cardenas', 'freddyacr02@gmail.com', 0, 1, '2024-05-14 23:01:59.592151', 'el reten'),
+(8, 'pbkdf2_sha256$600000$2vGgXv9zB8MdGZV0otpdZr$HnvnRTzdU1W+hZ117K9ecR3DT4hTKR7iIolG26SdbEY=', '2024-05-14 23:03:57.246575', 0, 'freddy', 'freddy', 'cardenas', 'freddyacr02@gmail.com', 0, 1, '2024-05-14 23:02:15.000000', 'el reten');
 
 -- --------------------------------------------------------
 
@@ -485,7 +492,9 @@ INSERT INTO `core_usuario_groups` (`id`, `usuario_id`, `group_id`) VALUES
 (4, 1, 3),
 (2, 4, 1),
 (3, 5, 1),
-(6, 5, 3);
+(6, 5, 3),
+(8, 7, 1),
+(10, 8, 3);
 
 -- --------------------------------------------------------
 
@@ -533,7 +542,11 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (10, '2023-06-24 08:28:20.401072', '1', 'admin', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 6, 1),
 (11, '2023-06-24 08:28:26.530008', '5', 'VendeDoor', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 6, 1),
 (12, '2023-06-24 08:28:43.509833', '3', 'ArmorStand', 3, '', 6, 1),
-(13, '2023-06-25 08:24:30.694575', '6', 'Pepe', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 6, 1);
+(13, '2023-06-25 08:24:30.694575', '6', 'Pepe', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 6, 1),
+(14, '2024-05-14 23:03:25.562715', '8', 'freddy', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 6, 1),
+(15, '2024-05-14 23:04:47.585467', '4', 'contador', 1, '[{\"added\": {}}]', 3, 1),
+(16, '2024-05-14 23:05:52.418267', '3', 'vendedor', 2, '[]', 3, 1),
+(17, '2024-05-14 23:06:13.164651', '4', 'contador', 2, '[]', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -630,7 +643,8 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('ndpxh5k5ay5n0rus11e5b9ohbjnkxt2e', '.eJxVjEsOwjAMBe-SNYqcfpKaJXvOUDm2SwookZp2hbg7VOoCtm9m3suMtK1p3Kou4yzmbJw5_W6R-KF5B3KnfCuWS16XOdpdsQet9lpEn5fD_TtIVNO3jgqAnlkn74KSdl5x0B5ajegwemla7gKEiTGIE-qxkaAI4IMMhGTeH_r5OEo:1qDLog:qdhygF2KYISVQo9SIGODc5nMMLFSHXjC6ddptu8SooM', '2023-07-09 09:13:54.820952');
+('ndpxh5k5ay5n0rus11e5b9ohbjnkxt2e', '.eJxVjEsOwjAMBe-SNYqcfpKaJXvOUDm2SwookZp2hbg7VOoCtm9m3suMtK1p3Kou4yzmbJw5_W6R-KF5B3KnfCuWS16XOdpdsQet9lpEn5fD_TtIVNO3jgqAnlkn74KSdl5x0B5ajegwemla7gKEiTGIE-qxkaAI4IMMhGTeH_r5OEo:1qDLog:qdhygF2KYISVQo9SIGODc5nMMLFSHXjC6ddptu8SooM', '2023-07-09 09:13:54.820952'),
+('xr7enfcjtolfb89xe9sbpmpsben2qfho', '.eJxVjEsOwjAMBe-SNYqcfpKaJXvOUDm2SwookZp2hbg7VOoCtm9m3suMtK1p3Kou4yzmbJw5_W6R-KF5B3KnfCuWS16XOdpdsQet9lpEn5fD_TtIVNO3jgqAnlkn74KSdl5x0B5ajegwemla7gKEiTGIE-qxkaAI4IMMhGTeH_r5OEo:1s71By:J4Ox_Mv4Tjdqj8BHYlgB_Kq2_gI-FCTo0kKhjmDKx4Q', '2024-05-28 23:04:18.878142');
 
 --
 -- Índices para tablas volcadas
@@ -787,7 +801,7 @@ ALTER TABLE `django_session`
 -- AUTO_INCREMENT de la tabla `auth_group`
 --
 ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_group_permissions`
@@ -805,7 +819,7 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT de la tabla `core_carrito`
 --
 ALTER TABLE `core_carrito`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `core_donacion`
@@ -865,13 +879,13 @@ ALTER TABLE `core_tipoproducto`
 -- AUTO_INCREMENT de la tabla `core_usuario`
 --
 ALTER TABLE `core_usuario`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `core_usuario_groups`
 --
 ALTER TABLE `core_usuario_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `core_usuario_user_permissions`
@@ -883,7 +897,7 @@ ALTER TABLE `core_usuario_user_permissions`
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`

@@ -44,13 +44,14 @@ def grupo_requerido(nombre_grupo):
 #@grupo_requerido('cliente')
 
 def index(request):
-    mensajes = Mensaje.objects.all()
-    #Productos = Producto.objects.all()
+    respuesta = requests.get('http://127.0.0.1:8000/api/productos')
+    respuesta2 = requests.get('https://mindicador.cl/api')
+    productos = respuesta.json()
+    monedas = respuesta2.json()
     data = {
-        'listaMensajes': mensajes,
-         #'listaProductos': Productos
+        'listaProductos': productos,
+        'moneda' : monedas,
     }
-
     return render(request, 'core/index.html', data)
 
 def registro(request):
@@ -131,18 +132,19 @@ def sustratos(request):
 def macetas(request):
     productos = Producto.objects.filter(tipo_id = "4")
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
+
     try:
         paginator = Paginator(productos, 5)
         productos = paginator.page(page)
     except:
         raise Http404
 
-    data = {
+    data1 = {
+
         'listaProductos': productos,
         'paginator': paginator
     }
-    return render(request, 'core/productos/Clavos y tornillos.html', data)
+    return render(request, 'core/productos/Clavos y tornillos.html', data1)
 
 def herramientas(request):
     productos = Producto.objects.filter(tipo_id = "5").all()
