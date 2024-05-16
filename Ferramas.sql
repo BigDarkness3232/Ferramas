@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ferramas`
 --
-
+CREATE DATABASE IF NOT EXISTS `Ferramas` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `Ferramas`;
 -- --------------------------------------------------------
 
 --
@@ -28,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
+  `id` bigint(11) NOT NULL,
   `name` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
