@@ -8,6 +8,7 @@ from django.contrib import messages
 from rest_framework import viewsets
 from .serializers import *
 import requests
+from django.shortcuts import render
 from django.contrib.auth.models import Group
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -43,15 +44,42 @@ def grupo_requerido(nombre_grupo):
     return decorator
 #@grupo_requerido('cliente')
 
+
+
 def index(request):
     respuesta = requests.get('http://127.0.0.1:8000/api/productos')
     respuesta2 = requests.get('https://mindicador.cl/api')
     productos = respuesta.json()
     monedas = respuesta2.json()
+
+    
+    if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
+        sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
+        esta_suscrito = sub.estado_sub
+    else:
+        esta_suscrito = False
+    
+    precio_clp = 0
+    for producto in productos:
+        precio_clp = precio_clp + producto.subtotal_producto
+    
+    descuento = round(precio_clp * 0.95)
+
+    valor_usd = monedas['serie'][0]['valor']
+    if esta_suscrito == True:
+        precio_usd = descuento/valor_usd
+    else:
+        precio_usd = precio_clp/valor_usd
+
     data = {
         'listaProductos': productos,
-        'moneda' : monedas,
+        'valor' : round(precio_usd, 2),
+        'precio_clp': precio_clp,
+        'descuento' : descuento,
+        'is_sub' : esta_suscrito,
+        'valor_dolar': valor_usd,
     }
+    
     return render(request, 'core/index.html', data)
 
 def registro(request):

@@ -29,9 +29,7 @@ class Producto(models.Model):
     descripcion = models.CharField(max_length=500)
     precio = models.IntegerField()
     stock = models.IntegerField()
-    tipo = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
     creado_en = models.DateField(auto_now_add=True)
-    modificado_en = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.nombre
