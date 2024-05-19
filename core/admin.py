@@ -3,10 +3,7 @@ from .models import *
 
 # Register your models here.
 
-class TipoProductoAdmin(admin.ModelAdmin):
-    readonly_fields = ("id",)
-    list_display = ['id', 'nombreTipoProducto']
-    list_editable = ['nombreTipoProducto']
+
 
 class MarcaAdmin(admin.ModelAdmin):
     readonly_fields = ("id",)
@@ -15,12 +12,11 @@ class MarcaAdmin(admin.ModelAdmin):
 
 class ProductoAdmin(admin.ModelAdmin):
     readonly_fields = ("id",)
-    list_display = ['nombre', 'marca', 'descripcion', 'precio', 'stock', 'tipo', 'creado_en', 'modificado_en', 'imagen']
-    list_editable = ['marca', 'descripcion', 'precio', 'stock', 'tipo', 'imagen']
+    list_display = ['nombre', 'marca', 'descripcion', 'precio', 'stock',  'creado_en','imagen']
+    list_editable = [ 'imagen','marca', 'descripcion', 'precio', 'stock', ]
 
     list_per_page = 10
     search_fields = ['nombre']
-    list_filter = ['tipo']
 
 class CarritoAdmin(admin.ModelAdmin):
     readonly_fields = ("id",)
@@ -40,7 +36,6 @@ class OrdenAdmin(admin.ModelAdmin):
     list_editable = ['precio_orden', 'estado_orden', 'direccion_envio']
 
 admin.site.register(Usuario)
-admin.site.register(TipoProducto, TipoProductoAdmin )
 admin.site.register(Marca, MarcaAdmin )
 admin.site.register(Mensaje, MensajeAdmin)
 admin.site.register(Producto, ProductoAdmin )

@@ -19,9 +19,7 @@ class ProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializers
 
-class TipoProductoViewset(viewsets.ModelViewSet):
-    queryset = TipoProducto.objects.all()
-    serializer_class = TipoProductoSerializers
+
 
 class MarcaViewset(viewsets.ModelViewSet):
     queryset = Marca.objects.all()
@@ -47,7 +45,7 @@ def grupo_requerido(nombre_grupo):
 
 
 def index(request):
-    respuesta = requests.get('http://127.0.0.1:8000/api/productos')
+    respuesta = requests.get('http://127.0.0.1:5000/Productos')
     respuesta2 = requests.get('https://mindicador.cl/api')
     productos = respuesta.json()
     monedas = respuesta2.json()

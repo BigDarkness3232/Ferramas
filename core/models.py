@@ -9,11 +9,6 @@ class Usuario(AbstractUser):
     def __str__(self):
         return self.first_name
     
-class TipoProducto(models.Model):
-    nombreTipoProducto = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.nombreTipoProducto
 
 
 class Marca(models.Model):
