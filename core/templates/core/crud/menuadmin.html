@@ -41,9 +41,9 @@
                             {% for aux in listaProductos %}
                             <tr>
                                 
-                                    <th scope="row">{{ aux.id }}</th>
-                                    <td>{{ aux.nombre }}</td>
-                                    <td>{{ aux.marca }}</td>
+                                    <th scope="row">{{ aux.codigo }}</th>
+                                    <td>{{ aux.nombre_producto }}</td>
+                                    <td>{{ aux.id_marca.nombre_marca }}</td>
                                     <td>{{ aux.descripcion }}</td>
                                     <td>{{ aux.precio | intcomma }}</td>
                                     <td>{{ aux.stock }}</td>
@@ -52,18 +52,18 @@
                                         {% if aux.imagen %}
                                             <img src="{{ aux.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;">
                                         {% else %}
-                                            <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
-                                            <h6 style="">No imagen</h6>
+                                            <img src="{% static 'core/img/imagen not found.png' %}" alt="Sin imagen" style="height: 100px;">
+                                            <h6 >No imagen</h6>
                                        {% endif %} </td>
                                     <td>creado el:<p> {{ aux.creado_en }}</p> modificado el:<p> {{ aux.modificado_en }}</p></td>
                                     <td>
                                     
                                         <div class="container">
                                             <!--Modificar-->
-                                            <a href="{% url 'modificar' aux.id %}" class="btn btn-warning mb-2 " style="width: 100px;">modificar</a>
+                                            <a href="{% url 'modificar' aux.codigo %}" class="btn btn-warning mb-2 " style="width: 100px;">modificar</a>
                                             <br>
                                             <!--Eliminar-->
-                                            <a href="#" onclick="eliminarProducto({{ aux.id }})" class="btn btn-danger " style="width: 100px;">eliminar</a>
+                                            <a href="#" onclick="eliminarProducto({{ aux.codigo }})" class="btn btn-danger " style="width: 100px;">eliminar</a>
                                         </div>
                                         
                                     </td>

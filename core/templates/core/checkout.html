@@ -59,21 +59,21 @@
                                                         <img src="{{ aux.producto_carrito.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;"></td>
                                                         
                                                     {% else %}
-                                                        <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
-                                                        <h6 style="">No imagen</h6>
+                                                        <img src="{% static 'core/img/imagen not found.png' %}" alt="Sin imagen" style="height: 100px;">
+                                                        <h6 >No imagen</h6>
                                                     {% endif %}
                                                     
                                                 </div> 
                                             </td>
                                             <!--3 nombre-->
-                                            <td class="align-middle"><h7 style="">{{ aux.producto_carrito.nombre }} </h7></td>
+                                            <td class="align-middle"><h7 >{{ aux.producto_carrito.nombre }} </h7></td>
                                             <!--5 PRECIO-->
                                             <td class="align-middle">{{ aux.producto_carrito.precio | intcomma }}</td>
                                             <!--6 CANTIDAD-->   
                                             <!-- <td class="align-middle"><input value="1" min="1" max="{{ aux.producto_carrito.stock }}" type="number" id="idCantidad" class="form-control" /></td> -->
                                             <td class="align-middle"> {{ aux.cantidad_prod}} </td> 
                                             <!--7 SUBTOTAL-->
-                                            <td class="align-middle"><h7 style=""> {{ aux.subtotal_producto | intcomma }} </h7></td>
+                                            <td class="align-middle"><h7 > {{ aux.subtotal_producto | intcomma }} </h7></td>
 
                                         </tr>
                                             {% endfor %}

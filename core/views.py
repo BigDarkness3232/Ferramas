@@ -46,36 +46,15 @@ def grupo_requerido(nombre_grupo):
 
 def index(request):
     respuesta = requests.get('http://127.0.0.1:5000/Productos')
-    respuesta2 = requests.get('https://mindicador.cl/api')
+    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     productos = respuesta.json()
     monedas = respuesta2.json()
 
-    
-    if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
-        sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
-        esta_suscrito = sub.estado_sub
-    else:
-        esta_suscrito = False
-    
-    precio_clp = 0
-    for producto in productos:
-        precio_clp = precio_clp + producto.subtotal_producto
-    
-    descuento = round(precio_clp * 0.95)
-
-    valor_usd = monedas['serie'][0]['valor']
-    if esta_suscrito == True:
-        precio_usd = descuento/valor_usd
-    else:
-        precio_usd = precio_clp/valor_usd
 
     data = {
         'listaProductos': productos,
-        'valor' : round(precio_usd, 2),
-        'precio_clp': precio_clp,
-        'descuento' : descuento,
-        'is_sub' : esta_suscrito,
-        'valor_dolar': valor_usd,
+        
+
     }
     
     return render(request, 'core/index.html', data)
@@ -95,8 +74,10 @@ def registro(request):
         data['form'] = formulario
     return render(request, 'registration/registro.html', data)
 
+
+
 def todosAPI(request):
-    respuesta = requests.get('http://127.0.0.1:8000/api/productos')
+    respuesta = requests.get('http://127.0.0.1:5000/Productos')
     respuesta2 = requests.get('https://mindicador.cl/api')
     productos = respuesta.json()
     monedas = respuesta2.json()
@@ -260,17 +241,21 @@ def perfil(request):
 #Admin CRUD
 @grupo_requerido('vendedor')
 def menuadmin(request):
-    productos = Producto.objects.all()
+    respuesta = requests.get('http://127.0.0.1:5000/Productos')
+    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
+    producto= respuesta.json()
+
+
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
     
     try:
-        paginator = Paginator(productos, 7)
-        productos = paginator.page(page)
+        paginator = Paginator(producto, 7)
+        producto = paginator.page(page)
     except:
         raise Http404
 
     data = {
-        'listaProductos': productos,
+        'listaProductos': producto,
         'paginator': paginator
     }
 
@@ -278,6 +263,10 @@ def menuadmin(request):
 
 @grupo_requerido('vendedor')
 def agregar(request):
+    respuesta = requests.get('http://127.0.0.1:5000/Productos')
+    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
+    producto = respuesta.json()
+
     data = {
         'form': ProductoForm()
     }
@@ -290,13 +279,18 @@ def agregar(request):
     return render(request, 'core/crud/agregar.html', data)
 
 @grupo_requerido('vendedor')
-def modificar(request, id):
-    producto = Producto.objects.get(id=id); 
+def modificar(request, codigo):
+    respuesta = requests.get('http://127.0.0.1:5000/Productos')
+    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
+    productos = respuesta.json()
+    monedas = respuesta2.json()
+    
+    productos = Producto.objects.get(id=codigo); 
     data = {
-        'form': ProductoForm(instance=producto) # LA INFO SE ALMACENA EN EL FORMULARIO
+        'form': ProductoForm(instance=productos) # LA INFO SE ALMACENA EN EL FORMULARIO
     }
     if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
+        formulario = ProductoForm(data=request.POST, instance=productos, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Producto modificado correctamente")

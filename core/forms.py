@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
+
 class CreacionUsuarioForm(UserCreationForm):
     first_name = forms.CharField(min_length=2,widget=forms.TextInput(attrs={"placeholder":"Ingrese su nombre"}))
     last_name = forms.CharField(min_length=2,widget=forms.TextInput(attrs={"placeholder":"Ingrese su apellido"}))
@@ -13,7 +14,7 @@ class CreacionUsuarioForm(UserCreationForm):
         fields = ['first_name', 'last_name',  'direccion', 'email', 'username', 'password1', 'password2']
 
 class ProductoForm(ModelForm):
-
+    codigo = forms.IntegerField(min_value=0,widget=forms.NumberInput(attrs={"placeholder":"Ingrese codigo"}))   
     nombre = forms.CharField(min_length=4,widget=forms.TextInput(attrs={"placeholder":"Ingrese Nombre"}))
     descripcion = forms.CharField(min_length=10,max_length=200,widget=forms.Textarea(attrs={"rows":4}))
     precio = forms.IntegerField(min_value=0,widget=forms.NumberInput(attrs={"placeholder":"Ingrese Precio"}))
@@ -21,7 +22,7 @@ class ProductoForm(ModelForm):
     
     class Meta:
         model = Producto
-        fields = ['imagen', 'nombre', 'marca', 'descripcion', 'precio', 'stock']
+        fields = ['codigo','imagen', 'nombre', 'descripcion', 'precio', 'stock']
         
 
 

@@ -10,8 +10,7 @@ class MarcaSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductoSerializers(serializers.ModelSerializer):
-    #Agregamos las FK
-    marca = MarcaSerializers(read_only = True)
+    
 
     class Meta:
         model = Producto

@@ -74,12 +74,12 @@
                                 {% if aux.imagen %}
                                 <img class="card-img-top c-img" src="{{ aux.imagen }}" alt="Card image" style="height: 300px;" >
                                 {% else %}
-                                <img class="card-img-top c-img" src="{% static 'core/img/logo.jpg' %}" alt="Card image" style="height: 300px;">
+                                <img class="card-img-top c-img" src="{% static 'core/img/imagen not found.png' %}" alt="Card image" style="height: 300px;">
                                 {% endif %}
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ aux.marca.nombre_marca | capfirst }}</h4>
-                                        <p class="card-text">{{ aux.nombre | title }}</p>
-                                        <h5 class="card-title">${{ aux.precio | intcomma }}</h4>
+                                    <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
+                                        <p class="card-text">{{ aux.nombre_producto | title }}</p>
+                                        <h5 class="card-title">${{ aux.precio }}</h4>
                                         <p class="text-muted">Stock: {{ aux.stock }}</p>
                                 </div>
                                 <div class="card-footer mx-auto" style="border: none; text-align: center;">
@@ -89,7 +89,7 @@
                                             <p>No disponible</p>
                                         {% else %}
                                         <button href="{% url 'pedidos' %}">detalles</button>
-                                        <a href="{% url 'carrito_agregar' aux.id %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
+                                        <a href="{% url 'carrito_agregar' aux.codigo %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
