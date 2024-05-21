@@ -70,31 +70,63 @@
                     <div class="row">
                         {% for aux in listaProductos %}
                         <div class="col-12 col-sm-6 col-md-4 col-lg-4" style="width: 18rem;">
-                            <div class="card carta-producto " >
-                                {% if aux.imagen %}
-                                <img class="card-img-top c-img" src="{{ aux.imagen }}" alt="Card image" style="height: 300px;" >
-                                {% else %}
-                                <img class="card-img-top c-img" src="{% static 'core/img/imagen not found.png' %}" alt="Card image" style="height: 300px;">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
-                                        <p class="card-text">{{ aux.nombre_producto | title }}</p>
-                                        <h5 class="card-title">${{ aux.precio }}</h4>
-                                        <p class="text-muted">Stock: {{ aux.stock }}</p>
-                                </div>
-                                <div class="card-footer mx-auto" style="border: none; text-align: center;">
-                                     
-                                    {% if user.is_authenticated %}
-                                        {% if aux.stock == 0 %}
-                                            <p>No disponible</p>
-                                        {% else %}
-                                        <button href="{% url 'pedidos' %}">detalles</button>
-                                        <a href="{% url 'carrito_agregar' aux.codigo %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
-                                        {% endif %}
+                            <div class="card carta-producto ">
+                            {% if aux.imagen %}
+                            <img class="card-img-top c-img" src="{{ aux.imagen }}" alt="Card image" style="height: 300px;" >
+                            {% else %}
+                            <img class="card-img-top c-img" src="{% static 'core/img/imagen not found.png' %}" alt="Card image" style="height: 300px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ aux.marca | capfirst }}</h4>
+                                    <p class="card-text">{{ aux.nombre_producto | title }}</p>
+                                    <h5 class="card-title">${{ aux.precio }}</h4>
+                                    <p class="text-muted">Stock: {{ aux.stock }}</p>
+                            </div>
+                            <div class="card-footer mx-auto" style="border: none; text-align: center;">
+                                 
+                                {% if user.is_authenticated %}
+                                    {% if aux.stock == 0 %}
+                                        <p>No disponible</p>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">detalles</button>
+                                    <a href="{% url 'carrito_agregar' aux.codigo %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
                                     {% endif %}
-                                </div>
+                                {% endif %}
+                            </div>
                             </div>
                         </div>
+                              <!-- The Modal -->
+                              <div class="modal fade" id="myModal">
+                              <div class="modal-dialog">
+                              <div class="modal-content">
+                          
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Descripcion Del Producto</h4>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                          
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                 <div> •    Cabeza de martillo de acero al carbono, gota forjada, endurecida y templada</div>
+                                 <div> •    Manija de fibra de vidrio de lujo</div>
+                                 <div> •    Cojín antideslizante moldeado</div>
+                                </div>
+                          
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                          
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+
+                
                         {% endfor %}
                     </div>
                 </div>
