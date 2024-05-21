@@ -22,6 +22,7 @@ class Producto(models.Model):
     codigo =models.CharField(max_length=50)
     imagen = models.ImageField(upload_to="productos", blank=True, null=True)
     nombre = models.CharField(max_length=50)
+    id_marca = models.IntegerField()
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=500)
     precio = models.IntegerField()

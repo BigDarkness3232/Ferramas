@@ -48,13 +48,10 @@ def index(request):
     respuesta = requests.get('http://127.0.0.1:5000/Productos')
     respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     productos = respuesta.json()
-    monedas = respuesta2.json()
 
 
     data = {
         'listaProductos': productos,
-        
-
     }
     
     return render(request, 'core/index.html', data)
@@ -267,14 +264,14 @@ def agregar(request):
     respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     producto = respuesta.json()
 
+
+    productos = requests.post('http://127.0.0.1:5000/POST')
+
     data = {
-        'form': ProductoForm()
+        'form': ProductoForm(),
+        'agregar': productos
     }
-    if request.method == 'POST':
-        formulario = ProductoForm(request.POST, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, "Producto almacenado correctamente")
+
 
     return render(request, 'core/crud/agregar.html', data)
 
