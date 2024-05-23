@@ -370,6 +370,7 @@ def eliminarm(request, id):
 
 @grupo_requerido('cliente')
 def carrito(request):
+
     respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     monedas = respuesta2.json()
     productos = Carrito.objects.filter(id_usuario = request.user.id).all()
@@ -404,9 +405,9 @@ def carrito(request):
     return render(request, 'core/carrito.html', data)
 
 @grupo_requerido('cliente')
-def car_agregar(request, id):
-    if Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).exists():
-        carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).first()
+def car_agregar(request, codigo):
+    if Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).exists():
+        carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).first()
 
         #Verifica que no se puedan agregar cantidades mayores al stock
         if carrito.producto_carrito.stock == 0:
@@ -418,10 +419,10 @@ def car_agregar(request, id):
         messages.success(request, 'Producto agregado')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     
-    producto_restar_stock(id, 1)
+    producto_restar_stock(codigo, 1)
     nuevo_item_carrito = Carrito()
     nuevo_item_carrito.id_usuario = Usuario.objects.get(id = request.user.id)
-    nuevo_item_carrito.producto_carrito = Producto.objects.get(id = id)
+    nuevo_item_carrito.producto_carrito = Producto.objects.get(codigo = codigo)
     nuevo_item_carrito.cantidad_prod = 1
     nuevo_item_carrito.save()
     messages.success(request, 'Producto agregado')

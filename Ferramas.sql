@@ -264,14 +264,14 @@ CREATE TABLE `core_carrito` (
   `id` bigint(20) NOT NULL,
   `cantidad_prod` int(11) NOT NULL,
   `id_usuario_id` bigint(20) NOT NULL,
-  `producto_carrito_id` bigint(20) NOT NULL
+  `producto_carrito_codigo` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `core_carrito`
 --
 
-INSERT INTO `core_carrito` (`id`, `cantidad_prod`, `id_usuario_id`, `producto_carrito_id`) VALUES
+INSERT INTO `core_carrito` (`id`, `cantidad_prod`, `id_usuario_id`, `producto_carrito_codigo`) VALUES
 (45, 2, 1, 3);
 
 -- --------------------------------------------------------
@@ -676,10 +676,10 @@ ALTER TABLE `auth_permission`
 --
 -- Indices de la tabla `core_carrito`
 --
-ALTER TABLE `core_carrito`
+  ALTER TABLE `core_carrito`
   ADD PRIMARY KEY (`id`),
   ADD KEY `core_carrito_id_usuario_id_a8530b01_fk_core_usuario_id` (`id_usuario_id`),
-  ADD KEY `core_carrito_producto_carrito_id_45e226fd_fk_core_producto_codigo` (`producto_carrito_id`);
+  ADD KEY `core_carrito_producto_carrito_codigo_45e226fd_fk_producto_codigo` (`producto_carrito_codigo`);
 
 --
 -- Indices de la tabla `core_donacion`
@@ -934,7 +934,7 @@ ALTER TABLE `auth_permission`
 --
 ALTER TABLE `core_carrito`
   ADD CONSTRAINT `core_carrito_id_usuario_id_a8530b01_fk_core_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `core_usuario` (`id`),
-  ADD CONSTRAINT `core_carrito_producto_carrito_id_45e226fd_fk_core_producto_codigo` FOREIGN KEY (`producto_carrito_id`) REFERENCES `core_producto` (`codigo`);
+  ADD CONSTRAINT `core_carrito_producto_carrito_codigo_45e226fd_fk_producto_codigo` FOREIGN KEY (`producto_carrito_codigo`) REFERENCES `core_producto` (`codigo`);
 
 --
 -- Filtros para la tabla `core_donacion`
