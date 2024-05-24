@@ -11,9 +11,9 @@ class MarcaAdmin(admin.ModelAdmin):
     list_editable = ['nombre_marca']
 
 class ProductoAdmin(admin.ModelAdmin):
-    readonly_fields = ("id",)
-    list_display = ['nombre', 'marca', 'descripcion', 'precio', 'stock',  'creado_en','imagen']
-    list_editable = [ 'imagen','marca', 'descripcion', 'precio', 'stock', ]
+    readonly_fields = ("codigo",)
+    list_display = ['nombre', 'id_marca','descripcion', 'precio', 'stock','imagen']
+    list_editable = [ 'id_marca','descripcion', 'precio', 'stock','imagen' ]
 
     list_per_page = 10
     search_fields = ['nombre']

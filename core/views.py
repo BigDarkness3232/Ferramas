@@ -14,6 +14,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 # Create your views here.
 
+
+api_url = "http://127.0.0.1:5000"
+
 #Creando una clase que va a permitir la transformacion
 class ProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
@@ -45,13 +48,20 @@ def grupo_requerido(nombre_grupo):
 
 
 def index(request):
-    respuesta = requests.get('http://127.0.0.1:5000/Productos')
-    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
-    productos = respuesta.json()
+    # Obtener la lista de productos desde la API
+    respuesta_productos = requests.get('http://127.0.0.1:5000/Productos')
+    productos = respuesta_productos.json()
+
+    # Obtener información sobre el precio del dólar desde la API de Mindicador
+    respuesta_dolar = requests.get('https://mindicador.cl/api/dolar')
+    dolar_data = respuesta_dolar.json()
+    precio_dolar = dolar_data['serie'][0]['valor']
 
 
+    # Pasar la lista de productos y el precio del dólar al contexto de la plantilla
     data = {
         'listaProductos': productos,
+        'precioDolar': precio_dolar,
     }
     
     return render(request, 'core/index.html', data)
@@ -260,46 +270,76 @@ def menuadmin(request):
 
 @grupo_requerido('vendedor')
 def agregar(request):
-    respuesta = requests.get('http://127.0.0.1:5000/Productos')
-    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
-    producto = respuesta.json()
-
-
-    productos = requests.post('http://127.0.0.1:5000/POST')
-
     data = {
-        'form': ProductoForm(),
-        'agregar': productos
+        'form': ProductoForm()
     }
+    if request.method == 'POST':
+       formulario = ProductoForm(request.POST, files=request.FILES)
+       if formulario.is_valid():
+          producto_data ={
+              'codigo': formulario.cleaned_data['codigo'],
+              'imagen': formulario.cleaned_data['imagen'],
+              'nombre_producto': formulario.cleaned_data['nombre'],
+              'descripcion': formulario.cleaned_data['descripcion'],
+              'id_marca': formulario.cleaned_data['id_marca'],
+              'nombre_marca': formulario.cleaned_data['nombre_marca'],
+              'precio': formulario.cleaned_data['precio'],
+              'stock': formulario.cleaned_data['stock'],  
+          }    
+
+          response = requests.post(f"{api_url}/Productos", json=producto_data)
+
+          if response.status_code == 200:
+           messages.success(request, "producto almacenado correctamente")   
+           return redirect('menuadmin')
+
+          else:
+              messages.error(request, f"error al almacenar en la base de datos : {response.text}")
 
 
     return render(request, 'core/crud/agregar.html', data)
 
 @grupo_requerido('vendedor')
-def modificar(request, codigo):
-    respuesta = requests.get('http://127.0.0.1:5000/Productos')
-    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
-    productos = respuesta.json()
-    monedas = respuesta2.json()
-    
-    productos = Producto.objects.get(id=codigo); 
+def modificar(request, codigo_producto):
     data = {
-        'form': ProductoForm(instance=productos) # LA INFO SE ALMACENA EN EL FORMULARIO
-    }
-    if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=productos, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, "Producto modificado correctamente")
-            data['form'] = formulario # CARGAMOS EL FORMULARIO FINAL CON LA INFO MODIFICADA
+    'form': ProductoForm()
+}
+
+    if request.method == 'PUT':
+      formulario = ProductoForm(request.PUT, files=request.FILES)
+    if formulario.is_valid():
+        producto_data ={
+            'codigo': formulario.cleaned_data['codigo'],
+            'imagen': formulario.cleaned_data['imagen'],
+            'nombre_producto': formulario.cleaned_data['nombre'],
+            'descripcion': formulario.cleaned_data['descripcion'],
+            'id_marca': formulario.cleaned_data['id_marca'],
+            'nombre_marca': formulario.cleaned_data['nombre_marca'],
+            'precio': formulario.cleaned_data['precio'],
+            'stock': formulario.cleaned_data['stock'],  
+        }    
+
+        response = requests.put(f"{api_url}/Productos/{codigo_producto}", json=producto_data)
+
+        if response.status_code == 200:
+            messages.success(request, "Producto actualizado correctamente")   
+            return redirect('menuadmin')
+        else:
+            messages.error(request, f"Error al actualizar en la base de datos : {response.text}")
 
     return render(request, 'core/crud/modificar.html', data)
 
 @grupo_requerido('vendedor')
-def eliminar(request, id):
-    producto = Producto.objects.get(id=id); # OBTENEMOS UN PRODUCTO
-    producto.delete()
+def eliminar(request, codigo_producto):
+   
+   if request.method == 'DELETE':
+    response = requests.delete(f"{api_url}/Productos/{codigo_producto}")
 
+    if response.status_code == 200:
+        messages.success(request, "Producto eliminado correctamente")   
+        return redirect('menuadmin')
+    else:
+        messages.error(request, f"Error al eliminar el producto de la base de datos: {response.text}")
     return redirect(to="menuadmin")
 
 
