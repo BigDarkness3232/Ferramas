@@ -53,4 +53,6 @@ urlpatterns = [
         path('detalle_pedido/<id>/', detalle_pedido, name="detalle_pedido"),
         path('menupedidos/', menupedidos, name="menupedidos"),
         path('actualizar_pedido/<id>', actualizar_pedido, name="actualizar_pedido"),
+        #infomes
+        path('informes/', informes,name="informes")
 ]

@@ -676,10 +676,6 @@ ALTER TABLE `auth_permission`
 --
 -- Indices de la tabla `core_carrito`
 --
-  ALTER TABLE `core_carrito`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `core_carrito_id_usuario_id_a8530b01_fk_core_usuario_id` (`id_usuario_id`),
-  ADD KEY `core_carrito_producto_carrito_codigo_45e226fd_fk_producto_codigo` (`producto_carrito_codigo`);
 
 --
 -- Indices de la tabla `core_donacion`
@@ -717,10 +713,7 @@ ALTER TABLE `core_orden`
 --
 -- Indices de la tabla `core_ordenproducto`
 --
-ALTER TABLE `core_ordenproducto`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `core_ordenproducto_orden_id_producto_id_a51afedc_uniq` (`orden_id`,`producto_id`),
-  ADD KEY `core_ordenproducto_producto_id_5b9951d7_fk_core_producto_id` (`producto_id`);
+
 
 --
 -- Indices de la tabla `core_producto`
@@ -932,9 +925,6 @@ ALTER TABLE `auth_permission`
 --
 -- Filtros para la tabla `core_carrito`
 --
-ALTER TABLE `core_carrito`
-  ADD CONSTRAINT `core_carrito_id_usuario_id_a8530b01_fk_core_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `core_usuario` (`id`),
-  ADD CONSTRAINT `core_carrito_producto_carrito_codigo_45e226fd_fk_producto_codigo` FOREIGN KEY (`producto_carrito_codigo`) REFERENCES `core_producto` (`codigo`);
 
 --
 -- Filtros para la tabla `core_donacion`
@@ -952,9 +942,6 @@ ALTER TABLE `core_orden`
 --
 -- Filtros para la tabla `core_ordenproducto`
 --
-ALTER TABLE `core_ordenproducto`
-  ADD CONSTRAINT `core_ordenproducto_orden_id_97cf6a78_fk_core_orden_id` FOREIGN KEY (`orden_id`) REFERENCES `core_orden` (`id`),
-  ADD CONSTRAINT `core_ordenproducto_producto_id_5b9951d7_fk_core_producto_id` FOREIGN KEY (`producto_id`) REFERENCES `core_producto` (`id`);
 
 --
 -- Filtros para la tabla `core_producto`

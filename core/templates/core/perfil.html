@@ -62,18 +62,6 @@
                         <p class="text-muted mb-0">{{ user.direccion }}</p>
                     </div>
                   </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class=" mb-0">Permisos de Usuario:</p>
-                    </div>
-                    <div class="col-sm-9">
-                      {% for grupo in user.groups.all %}
-                      <p class=" mb-0">{{grupo}}</p>
-                      {% endfor %}
-                    </div>
-                  </div>
-                  <hr>
                 </div>
               </div>
             </div>

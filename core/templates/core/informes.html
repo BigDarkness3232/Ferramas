@@ -1,0 +1,177 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block contenido %}
+  <style>
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+
+<body>
+  <h1>Informe de Ventas Totales</h1>
+  
+  <!-- Campos de selección de fecha -->
+  <div class="mb-3">
+    <label for="startDate" class="form-label">Fecha de inicio</label>
+    <input type="date" id="startDate" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="endDate" class="form-label">Fecha de fin</label>
+    <input type="date" id="endDate" class="form-control">
+  </div>
+  <button onclick="filterOrders()" class="btn btn-primary">Filtrar Órdenes</button>
+
+  <table id="salesTable">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad Vendida</th>
+        <th>Precio Unitario</th>
+        <th>Total</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Producto A</td>
+        <td>$20.000</td>
+        <td>$25.000</td>
+        <td>$150.000</td>
+        <td>2024-05-24</td>
+      </tr>
+      <tr>
+        <td>Producto B</td>
+        <td>20</td>
+        <td>$25</td>
+        <td>$500</td>
+        <td>2023-05-15</td>
+      </tr>
+      <tr>
+        <td>Producto C</td>
+        <td>5</td>
+        <td>$30</td>
+        <td>$150</td>
+        <td>2023-05-20</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="container mt-3">
+    <h3>Informe PDF Generado</h3>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+      Abrir
+    </button>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">INFORME DE LA VENTA</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <button onclick="generatePDF()" class="btn btn-primary">Descargar Informe en PDF</button>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+        <script>
+          function filterOrders() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const rows = document.querySelectorAll('#salesTable tbody tr');
+            
+            rows.forEach(row => {
+              const dateCell = row.cells[4];
+              const orderDate = new Date(dateCell.textContent);
+              if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                // Both dates are valid
+                if (orderDate >= startDate && orderDate <= endDate) {
+                  row.style.display = '';
+                } else {
+                  row.style.display = 'none';
+                }
+              } else if (!isNaN(startDate.getTime())) {
+                // Only start date is valid
+                if (orderDate >= startDate) {
+                  row.style.display = '';
+                } else {
+                  row.style.display = 'none';
+                }
+              } else if (!isNaN(endDate.getTime())) {
+                // Only end date is valid
+                if (orderDate <= endDate) {
+                  row.style.display = '';
+                } else {
+                  row.style.display = 'none';
+                }
+              } else {
+                // No dates are valid
+                row.style.display = '';
+              }
+            });
+          }
+
+          function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text('Informe de Ventas Totales', 20, 20);
+
+            const table = document.getElementById('salesTable');
+            const rows = [...table.querySelectorAll('tbody tr')].filter(row => row.style.display !== 'none');
+
+            const data = rows.map(row => {
+              return [...row.cells].map(cell => cell.textContent);
+            });
+
+            doc.autoTable({
+              head: [['Producto', 'Cantidad Vendida', 'Precio Unitario', 'Total', 'Fecha']],
+              body: data
+            });
+
+            doc.save('informe_ventas.pdf');
+          }
+        </script>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+{% endblock contenido %}

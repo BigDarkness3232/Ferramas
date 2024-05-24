@@ -9,6 +9,7 @@
             <div class="col-12 col-md-8 offset-md-2">
                 <br>
                 <h1 style="text-align: center;">Lista de pedidos</h1>
+                <a href="{% url 'informes' %}" class="btn btn-success mb-3 me-4" style="float: left;">Informes de pedidos</a>
                 <br>
                 <div class="accordion" id="accordionExample">
                     {% for aux in listaPedidos%}
@@ -48,6 +49,9 @@
                     <br>
                     {% include 'core/paginator.html' %}
                   </div>
+
+
+
 
             </div>
         </div>

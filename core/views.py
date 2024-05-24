@@ -607,3 +607,14 @@ def actualizar_pedido(request, id):
             data['form'] = formulario # CARGAMOS EL FORMULARIO FINAL CON LA INFO MODIFICADA
 
     return render(request, 'core/crud/actualizar_pedido.html', data)
+
+@grupo_requerido('vendedor')
+def informes(request):
+    pedidos = Orden.objects.all()
+
+    data = {
+        'listaPedidos': pedidos
+
+    }
+    print(data['listaPedidos'])
+    return render(request, 'core/informes.html', data)
