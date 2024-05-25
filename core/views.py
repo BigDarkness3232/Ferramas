@@ -300,47 +300,51 @@ def agregar(request):
     return render(request, 'core/crud/agregar.html', data)
 
 @grupo_requerido('vendedor')
-def modificar(request, codigo_producto):
-    data = {
-    'form': ProductoForm()
-}
-
-    if request.method == 'PUT':
-      formulario = ProductoForm(request.PUT, files=request.FILES)
-    if formulario.is_valid():
-        producto_data ={
-            'codigo': formulario.cleaned_data['codigo'],
-            'imagen': formulario.cleaned_data['imagen'],
-            'nombre_producto': formulario.cleaned_data['nombre'],
-            'descripcion': formulario.cleaned_data['descripcion'],
-            'id_marca': formulario.cleaned_data['id_marca'],
-            'nombre_marca': formulario.cleaned_data['nombre_marca'],
-            'precio': formulario.cleaned_data['precio'],
-            'stock': formulario.cleaned_data['stock'],  
-        }    
-
-        response = requests.put(f"{api_url}/Productos/{codigo_producto}", json=producto_data)
-
-        if response.status_code == 200:
-            messages.success(request, "Producto actualizado correctamente")   
-            return redirect('menuadmin')
+def modificar(request, codigo):
+    try:
+        if request.method == 'POST':
+            form = ProductoForm(request.POST)
+            if form.is_valid():
+                url = f"http://127.0.0.1:5000/Productos/{codigo}"
+                response = request.put(url, json=form.cleaned_data)
+                if response.status_code == 200:
+                    messages.success(request, '!EL producto se ha actualizado Correctamente')
+                    return redirect('menuadmin')
+                else:
+                    data = {'error':'no se pudo actualizar el producto en la api'}
+                    return render(request, 'core/crud/modificar.html', data)
         else:
-            messages.error(request, f"Error al actualizar en la base de datos : {response.text}")
+            url = f"http://127.0.0.1:5000/Productos/{codigo}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                producto = response.json()
+                data = {'form': ProductoForm(initial=producto), 'codigo' : codigo}      
+                return render(request, 'core/crud/modificar.html', data)
+            else: 
+                data = {'error':'no se pudo obtener el producto de la api'}
+                return render(request, 'core/crud/modificar.html', data)
+    except Exception as e:
+        data = {'error': str(e)}
+        return render(request, 'core/crud/modificar.html', data)
 
-    return render(request, 'core/crud/modificar.html', data)
+
 
 @grupo_requerido('vendedor')
-def eliminar(request, codigo_producto):
-   
-   if request.method == 'DELETE':
-    response = requests.delete(f"{api_url}/Productos/{codigo_producto}")
+def eliminar(request, codigo):
+    try:
+        url = f"http://127.0.0.1:5000/Productos/{codigo}"
+        response = requests.delete(url)
 
-    if response.status_code == 200:
-        messages.success(request, "Producto eliminado correctamente")   
-        return redirect('menuadmin')
-    else:
-        messages.error(request, f"Error al eliminar el producto de la base de datos: {response.text}")
-    return redirect(to="menuadmin")
+        if response.status_code == 200:
+            success_message = '!El producto se ha eliminado correctamente'
+            return redirect('index')
+        else:
+            data = {'error': 'No se pudo eliminar el producto en la API'}
+            return render(request, 'core/index.html', data)
+    except Exception as e:
+        data = {'error': str(e)}
+        return render(request, 'core/index.html', data)
+
 
 
 

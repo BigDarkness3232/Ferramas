@@ -17,7 +17,7 @@ class ProductoForm(forms.Form):
     codigo = forms.CharField(max_length=20, label="codigo")
     imagen = forms.CharField()  
     nombre = forms.CharField()
-    descripcion = forms.CharField(min_length=0,max_length=200)
+    descripcion = forms.CharField(max_length=200)
     id_marca = forms.IntegerField()
     nombre_marca = forms.CharField()
     precio = forms.IntegerField()
