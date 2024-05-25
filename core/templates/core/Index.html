@@ -23,15 +23,22 @@
                 </div>
             </div>
             
-            {% for aux in listaMensajes %}
             <div class="carousel-item active c-item">
-                <img src="{{ aux.imagen.url }}" class="c-img d-block w-100" alt="...">
+                <img src="{% static 'core/img/soldar.jpg' %}" class="c-img d-block w-100" alt="...">
                 <div class="carousel-caption top-0 mt-2">
                     <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
-                    -webkit-text-stroke-color: black;">{{ aux.descripcion }}</p>
+                    -webkit-text-stroke-color: black;">Ferramas</p>
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="carousel-item active c-item">
+                <img src="{% static 'core/img/funciones-del-jefe-de-compras-6.png' %}" class="c-img d-block w-100" alt="...">
+                <div class="carousel-caption top-0 mt-2">
+                    <p class="mt-5 fs-3 text-uppercase" style="-webkit-text-stroke: 1px;
+                    -webkit-text-stroke-color: black;">Ferramas</p>
+                </div>
+            </div>
+
         </div>
     </div>
         
@@ -107,9 +114,15 @@
                                 </div>
                                 
                                 <!-- Modal body -->
-                                <div class="modal-body">
-                                 <div> •    Cabeza de martillo de acero al carbono, gota forjada, endurecida y templada</div>
-                                </div>
+                                
+                              
+                                {% if aux.descipcion == %}
+                                <p>No disponible</p>
+                            {% else %}
+                            <div class="modal-body">
+                                <div> •    Cabeza de martillo de acero al carbono, gota forjada, endurecida y templada</div>
+                               </div>
+                            {% endif %}
                           
                                 <!-- Modal footer -->
                                 <div class="modal-footer">

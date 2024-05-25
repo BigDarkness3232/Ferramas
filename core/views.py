@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import *
 from django.contrib import messages
@@ -47,7 +47,7 @@ def grupo_requerido(nombre_grupo):
 
 
 
-def index(request):
+def index(request,  codigo_producto):
     # Obtener la lista de productos desde la API
     respuesta_productos = requests.get('http://127.0.0.1:5000/Productos')
     productos = respuesta_productos.json()
@@ -58,10 +58,21 @@ def index(request):
     precio_dolar = dolar_data['serie'][0]['valor']
 
 
+        # Hacer una solicitud a la API para obtener la información del producto
+    url = f"http://127.0.0.1:5000/Productos/{codigo_producto}"
+    response = requests.get(url)
+        
+    if response.status_code == 200:
+            producto = response.json()
+            descripcion = producto.get('descripcion', 'No disponible')
+            # Aquí podrías agregar más datos del producto que quieras mostrar
+
+
     # Pasar la lista de productos y el precio del dólar al contexto de la plantilla
     data = {
         'listaProductos': productos,
         'precioDolar': precio_dolar,
+        'descripcion': descripcion
     }
     
     return render(request, 'core/index.html', data)
@@ -306,22 +317,25 @@ def modificar(request, codigo):
             form = ProductoForm(request.POST)
             if form.is_valid():
                 url = f"http://127.0.0.1:5000/Productos/{codigo}"
-                response = request.put(url, json=form.cleaned_data)
+                response = requests.put(url, json=form.cleaned_data)  # Corrección aquí
                 if response.status_code == 200:
-                    messages.success(request, '!EL producto se ha actualizado Correctamente')
+                    messages.success(request, '!El producto se ha actualizado correctamente')
                     return redirect('menuadmin')
                 else:
-                    data = {'error':'no se pudo actualizar el producto en la api'}
+                    data = {'error': 'No se pudo actualizar el producto en la API'}
                     return render(request, 'core/crud/modificar.html', data)
+            else:
+                data = {'error': 'El formulario no es válido'}
+                return render(request, 'core/crud/modificar.html', data)
         else:
             url = f"http://127.0.0.1:5000/Productos/{codigo}"
             response = requests.get(url)
             if response.status_code == 200:
                 producto = response.json()
-                data = {'form': ProductoForm(initial=producto), 'codigo' : codigo}      
+                data = {'form': ProductoForm(initial=producto), 'codigo': codigo}      
                 return render(request, 'core/crud/modificar.html', data)
             else: 
-                data = {'error':'no se pudo obtener el producto de la api'}
+                data = {'error': 'No se pudo obtener el producto de la API'}
                 return render(request, 'core/crud/modificar.html', data)
     except Exception as e:
         data = {'error': str(e)}
@@ -454,6 +468,7 @@ def car_agregar(request, codigo):
         carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).first()
 
         #Verifica que no se puedan agregar cantidades mayores al stock
+
         if carrito.producto_carrito.stock == 0:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
@@ -657,8 +672,10 @@ def informes(request):
     pedidos = Orden.objects.all()
 
     data = {
+
         'listaPedidos': pedidos
 
     }
     print(data['listaPedidos'])
     return render(request, 'core/informes.html', data)
+

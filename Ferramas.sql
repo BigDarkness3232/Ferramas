@@ -812,9 +812,6 @@ ALTER TABLE `auth_permission`
 --
 -- AUTO_INCREMENT de la tabla `core_carrito`
 --
-ALTER TABLE `core_carrito`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
-
 --
 -- AUTO_INCREMENT de la tabla `core_donacion`
 --
