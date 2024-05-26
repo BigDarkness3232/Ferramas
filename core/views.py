@@ -467,6 +467,7 @@ def car_agregar(request, codigo):
     if Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).exists():
         carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).first()
 
+           
         #Verifica que no se puedan agregar cantidades mayores al stock
 
         if carrito.producto_carrito.stock == 0:
