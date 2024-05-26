@@ -41,6 +41,7 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 (2, 'administrador'),
 (1, 'cliente'),
 (4, 'contador'),
+(5,'bodeguero'),
 (3, 'vendedor');
 
 -- --------------------------------------------------------
@@ -59,117 +60,7 @@ CREATE TABLE `auth_group_permissions` (
 -- Volcado de datos para la tabla `auth_group_permissions`
 --
 
-INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`) VALUES
-(1, 1, 17),
-(2, 1, 18),
-(3, 1, 19),
-(4, 1, 20),
-(5, 1, 21),
-(6, 1, 22),
-(7, 1, 24),
-(8, 1, 28),
-(9, 1, 32),
-(10, 1, 36),
-(11, 1, 40),
-(12, 1, 44),
-(13, 1, 45),
-(14, 1, 46),
-(15, 1, 47),
-(16, 1, 48),
-(17, 1, 52),
-(18, 1, 53),
-(19, 1, 54),
-(20, 1, 55),
-(21, 1, 56),
-(82, 1, 60),
-(22, 2, 1),
-(23, 2, 2),
-(24, 2, 3),
-(25, 2, 4),
-(26, 2, 5),
-(27, 2, 6),
-(28, 2, 7),
-(29, 2, 8),
-(30, 2, 9),
-(31, 2, 10),
-(32, 2, 11),
-(33, 2, 12),
-(34, 2, 13),
-(35, 2, 14),
-(36, 2, 15),
-(37, 2, 16),
-(38, 2, 17),
-(39, 2, 18),
-(40, 2, 19),
-(41, 2, 20),
-(42, 2, 21),
-(43, 2, 22),
-(44, 2, 23),
-(45, 2, 24),
-(46, 2, 25),
-(47, 2, 26),
-(48, 2, 27),
-(49, 2, 28),
-(50, 2, 29),
-(51, 2, 30),
-(52, 2, 31),
-(53, 2, 32),
-(54, 2, 33),
-(55, 2, 34),
-(56, 2, 35),
-(57, 2, 36),
-(58, 2, 37),
-(59, 2, 38),
-(60, 2, 39),
-(61, 2, 40),
-(62, 2, 41),
-(63, 2, 42),
-(64, 2, 43),
-(65, 2, 44),
-(66, 2, 45),
-(67, 2, 46),
-(68, 2, 47),
-(69, 2, 48),
-(70, 2, 49),
-(71, 2, 50),
-(72, 2, 51),
-(73, 2, 52),
-(74, 2, 53),
-(75, 2, 54),
-(76, 2, 55),
-(77, 2, 56),
-(78, 2, 57),
-(79, 2, 58),
-(80, 2, 59),
-(81, 2, 60),
-(83, 3, 25),
-(84, 3, 26),
-(85, 3, 27),
-(86, 3, 28),
-(87, 3, 29),
-(88, 3, 30),
-(89, 3, 31),
-(90, 3, 32),
-(91, 3, 33),
-(92, 3, 34),
-(93, 3, 35),
-(94, 3, 36),
-(95, 3, 37),
-(96, 3, 38),
-(97, 3, 39),
-(98, 3, 40),
-(99, 3, 41),
-(100, 3, 42),
-(101, 3, 43),
-(102, 3, 44),
-(103, 3, 45),
-(104, 3, 46),
-(105, 3, 47),
-(106, 3, 48),
-(107, 3, 49),
-(108, 3, 50),
-(109, 3, 51),
-(110, 3, 52);
+
 
 -- --------------------------------------------------------
 
@@ -188,71 +79,6 @@ CREATE TABLE `auth_permission` (
 -- Volcado de datos para la tabla `auth_permission`
 --
 
-INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
-(1, 'Can add log entry', 1, 'add_logentry'),
-(2, 'Can change log entry', 1, 'change_logentry'),
-(3, 'Can delete log entry', 1, 'delete_logentry'),
-(4, 'Can view log entry', 1, 'view_logentry'),
-(5, 'Can add permission', 2, 'add_permission'),
-(6, 'Can change permission', 2, 'change_permission'),
-(7, 'Can delete permission', 2, 'delete_permission'),
-(8, 'Can view permission', 2, 'view_permission'),
-(9, 'Can add group', 3, 'add_group'),
-(10, 'Can change group', 3, 'change_group'),
-(11, 'Can delete group', 3, 'delete_group'),
-(12, 'Can view group', 3, 'view_group'),
-(13, 'Can add content type', 4, 'add_contenttype'),
-(14, 'Can change content type', 4, 'change_contenttype'),
-(15, 'Can delete content type', 4, 'delete_contenttype'),
-(16, 'Can view content type', 4, 'view_contenttype'),
-(17, 'Can add session', 5, 'add_session'),
-(18, 'Can change session', 5, 'change_session'),
-(19, 'Can delete session', 5, 'delete_session'),
-(20, 'Can view session', 5, 'view_session'),
-(21, 'Can add user', 6, 'add_usuario'),
-(22, 'Can change user', 6, 'change_usuario'),
-(23, 'Can delete user', 6, 'delete_usuario'),
-(24, 'Can view user', 6, 'view_usuario'),
-(25, 'Can add estado orden', 7, 'add_estadoorden'),
-(26, 'Can change estado orden', 7, 'change_estadoorden'),
-(27, 'Can delete estado orden', 7, 'delete_estadoorden'),
-(28, 'Can view estado orden', 7, 'view_estadoorden'),
-(29, 'Can add marca', 8, 'add_marca'),
-(30, 'Can change marca', 8, 'change_marca'),
-(31, 'Can delete marca', 8, 'delete_marca'),
-(32, 'Can view marca', 8, 'view_marca'),
-(33, 'Can add mensaje', 9, 'add_mensaje'),
-(34, 'Can change mensaje', 9, 'change_mensaje'),
-(35, 'Can delete mensaje', 9, 'delete_mensaje'),
-(36, 'Can view mensaje', 9, 'view_mensaje'),
-(37, 'Can add orden', 10, 'add_orden'),
-(38, 'Can change orden', 10, 'change_orden'),
-(39, 'Can delete orden', 10, 'delete_orden'),
-(40, 'Can view orden', 10, 'view_orden'),
-(41, 'Can add tipo producto', 11, 'add_tipoproducto'),
-(42, 'Can change tipo producto', 11, 'change_tipoproducto'),
-(43, 'Can delete tipo producto', 11, 'delete_tipoproducto'),
-(44, 'Can view tipo producto', 11, 'view_tipoproducto'),
-(45, 'Can add suscripcion', 12, 'add_suscripcion'),
-(46, 'Can change suscripcion', 12, 'change_suscripcion'),
-(47, 'Can delete suscripcion', 12, 'delete_suscripcion'),
-(48, 'Can view suscripcion', 12, 'view_suscripcion'),
-(49, 'Can add producto', 13, 'add_producto'),
-(50, 'Can change producto', 13, 'change_producto'),
-(51, 'Can delete producto', 13, 'delete_producto'),
-(52, 'Can view producto', 13, 'view_producto'),
-(53, 'Can add carrito', 14, 'add_carrito'),
-(54, 'Can change carrito', 14, 'change_carrito'),
-(55, 'Can delete carrito', 14, 'delete_carrito'),
-(56, 'Can view carrito', 14, 'view_carrito'),
-(57, 'Can add orden producto', 15, 'add_ordenproducto'),
-(58, 'Can change orden producto', 15, 'change_ordenproducto'),
-(59, 'Can delete orden producto', 15, 'delete_ordenproducto'),
-(60, 'Can view orden producto', 15, 'view_ordenproducto'),
-(61, 'Can add donacion', 16, 'add_donacion'),
-(62, 'Can change donacion', 16, 'change_donacion'),
-(63, 'Can delete donacion', 16, 'delete_donacion'),
-(64, 'Can view donacion', 16, 'view_donacion');
 
 -- --------------------------------------------------------
 
@@ -260,21 +86,28 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 -- Estructura de tabla para la tabla `core_carrito`
 --
 
-CREATE TABLE `core_carrito` (
+create TABLE `carroProducto`(
   `id` bigint(20) NOT NULL,
-  `cantidad_prod` int(11) NOT NULL,
-  `id_usuario_id` bigint(20) NOT NULL,
-  `producto_carrito_codigo` bigint(20) NOT NULL
+     `producto` bigint(20) NOT NULL,
+  `cantidad` bigint(20) NOT NULL,
+  `usuario` bigint(20) NOT NULL
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+
+
+
+CREATE TABLE `carrito` (
+  `id` bigint(20) NOT NULL,
+  `usuario` bigint(20) NOT NULL,
+  `producto` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `core_carrito`
 --
-
-INSERT INTO `core_carrito` (`id`, `cantidad_prod`, `id_usuario_id`, `producto_carrito_codigo`) VALUES
-(45, 2, 1, 3);
-
--- --------------------------------------------------------
+-- -------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `core_donacion`
@@ -661,17 +494,12 @@ ALTER TABLE `auth_group`
 --
 -- Indices de la tabla `auth_group_permissions`
 --
-ALTER TABLE `auth_group_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
+
 
 --
 -- Indices de la tabla `auth_permission`
 --
-ALTER TABLE `auth_permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
+
 
 --
 -- Indices de la tabla `core_carrito`
@@ -718,23 +546,9 @@ ALTER TABLE `core_orden`
 --
 -- Indices de la tabla `core_producto`
 --
-ALTER TABLE `core_producto`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `core_producto_marca_id_b2651e7a_fk_core_marca_id` (`marca_id`),
-  ADD KEY `core_producto_tipo_id_e0e92ad1_fk_core_tipoproducto_id` (`tipo_id`);
-
---
--- Indices de la tabla `core_suscripcion`
---
-ALTER TABLE `core_suscripcion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `core_suscripcion_id_usuario_id_6d081176_fk_core_usuario_id` (`id_usuario_id`);
-
---
 -- Indices de la tabla `core_tipoproducto`
 --
-ALTER TABLE `core_tipoproducto`
-  ADD PRIMARY KEY (`id`);
+
 
 --
 -- Indices de la tabla `core_usuario`
@@ -754,10 +568,6 @@ ALTER TABLE `core_usuario_groups`
 --
 -- Indices de la tabla `core_usuario_user_permissions`
 --
-ALTER TABLE `core_usuario_user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `core_usuario_user_permis_usuario_id_permission_id_7a048d24_uniq` (`usuario_id`,`permission_id`),
-  ADD KEY `core_usuario_user_pe_permission_id_7f881653_fk_auth_perm` (`permission_id`);
 
 --
 -- Indices de la tabla `django_admin_log`
@@ -800,14 +610,6 @@ ALTER TABLE `auth_group`
 --
 -- AUTO_INCREMENT de la tabla `auth_group_permissions`
 --
-ALTER TABLE `auth_group_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
-
---
--- AUTO_INCREMENT de la tabla `auth_permission`
---
-ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `core_carrito`
@@ -909,15 +711,10 @@ ALTER TABLE `django_migrations`
 --
 -- Filtros para la tabla `auth_group_permissions`
 --
-ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
 
 --
 -- Filtros para la tabla `auth_permission`
 --
-ALTER TABLE `auth_permission`
-  ADD CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
 
 --
 -- Filtros para la tabla `core_carrito`
@@ -962,10 +759,6 @@ ALTER TABLE `core_usuario_groups`
 
 --
 -- Filtros para la tabla `core_usuario_user_permissions`
---
-ALTER TABLE `core_usuario_user_permissions`
-  ADD CONSTRAINT `core_usuario_user_pe_permission_id_7f881653_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `core_usuario_user_pe_usuario_id_ce4108a7_fk_core_usua` FOREIGN KEY (`usuario_id`) REFERENCES `core_usuario` (`id`);
 
 --
 -- Filtros para la tabla `django_admin_log`

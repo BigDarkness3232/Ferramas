@@ -42,24 +42,24 @@ class Mensaje(models.Model):
         return self.nombre    
 
 #class ProductoEspecial(models.Model):
+class CarroProducto(models.Model):
+    Producto = models.ForeignKey(Producto,on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    usuario =models.ForeignKey(Usuario, on_delete=models.CASCADE)
+
+
 
 class Carrito(models.Model):
     
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    producto_carrito = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad_prod = models.IntegerField(default=1)
-    def __str__(self):
-        return str(self.id_usuario)
+    usuario = models.OneToOneField(Usuario,on_delete=models.CASCADE)
+    productos = models.ManyToManyField(CarroProducto)
     
-    @property
-    def subtotal_producto(self):
-        precio = self.producto_carrito.precio * self.cantidad_prod
-        return precio
+    def total (self):
+        total = 0
+        for x in self.productos.all():
+            total += x.subtotal()
+        return total
     
-#    @property
-#    def total_descuento(self):
-#        return self.subtotal_producto * 0.95
-
 
 class EstadoOrden(models.Model):
     estado_orden = models.CharField(max_length=50)

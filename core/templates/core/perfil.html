@@ -11,7 +11,7 @@
             <div class="col">
               <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                 <ol class="breadcrumb mb-0">
-                    <h4>Bienvenido {{user.username}}.</h4>
+                    <h4>Bienvenido {{user.get_full_name}}.</h4>
                 </ol>
               </nav>
             </div>
@@ -24,7 +24,7 @@
                   <img src="{%  static '/core/img/perfil_default.png' %}" alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;">
                     <br>
-                    <p class="mb-0">{{user.username}}</p>
+                    <p class="mb-0">{{user.get_full_name}}</p>
                     <br>
                   <div class="d-flex justify-content-center mb-2">
                     <a type="button" class="btn btn-outline-success ms-1" href="{% url 'pedidos' %}">Revisar pedidos</a>

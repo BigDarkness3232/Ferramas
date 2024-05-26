@@ -35,19 +35,11 @@ class MensajeViewset(viewsets.ModelViewSet):
 
 #Permisos
 # FUNCION GENERICA QUE VALIDA EL GRUPO
-def grupo_requerido(nombre_grupo):
-    def decorator(view_func):
-        @user_passes_test(lambda user: user.groups.filter(name=nombre_grupo).exists())
-        def wrapper(request, *args, **kwargs):
-            return view_func(request, *args, **kwargs)
-        return wrapper
-    
-    return decorator
-#@grupo_requerido('cliente')
+#
 
 
 
-def index(request,  codigo_producto):
+def index(request):
     # Obtener la lista de productos desde la API
     respuesta_productos = requests.get('http://127.0.0.1:5000/Productos')
     productos = respuesta_productos.json()
@@ -59,20 +51,12 @@ def index(request,  codigo_producto):
 
 
         # Hacer una solicitud a la API para obtener la información del producto
-    url = f"http://127.0.0.1:5000/Productos/{codigo_producto}"
-    response = requests.get(url)
-        
-    if response.status_code == 200:
-            producto = response.json()
-            descripcion = producto.get('descripcion', 'No disponible')
-            # Aquí podrías agregar más datos del producto que quieras mostrar
-
+ 
 
     # Pasar la lista de productos y el precio del dólar al contexto de la plantilla
     data = {
         'listaProductos': productos,
         'precioDolar': precio_dolar,
-        'descripcion': descripcion
     }
     
     return render(request, 'core/index.html', data)
@@ -210,7 +194,7 @@ def fundacion(request):
 
     return render(request, 'core/fundacion.html', data)
 
-@grupo_requerido('cliente')
+
 def subscripcion(request):
     json_dolar = requests.get('https://mindicador.cl/api/dolar')
     monedas = json_dolar.json()
@@ -243,7 +227,7 @@ def agregar_sub(request):
 
     return redirect(to="perfil")
 #Fin cosas subs
-@grupo_requerido('cliente')
+
 def perfil(request):
     if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
         sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
@@ -257,10 +241,8 @@ def perfil(request):
 
 
 #Admin CRUD
-@grupo_requerido('vendedor')
 def menuadmin(request):
     respuesta = requests.get('http://127.0.0.1:5000/Productos')
-    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     producto= respuesta.json()
 
 
@@ -279,7 +261,6 @@ def menuadmin(request):
 
     return render(request, 'core/crud/menuadmin.html', data)
 
-@grupo_requerido('vendedor')
 def agregar(request):
     data = {
         'form': ProductoForm()
@@ -310,7 +291,6 @@ def agregar(request):
 
     return render(request, 'core/crud/agregar.html', data)
 
-@grupo_requerido('vendedor')
 def modificar(request, codigo):
     try:
         if request.method == 'POST':
@@ -343,7 +323,6 @@ def modificar(request, codigo):
 
 
 
-@grupo_requerido('vendedor')
 def eliminar(request, codigo):
     try:
         url = f"http://127.0.0.1:5000/Productos/{codigo}"
@@ -367,7 +346,6 @@ def eliminar(request, codigo):
 
 
 # CRUD de los mensajes
-@grupo_requerido('vendedor')
 def menumensajes(request):
     productos = Mensaje.objects.all()
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
@@ -385,7 +363,6 @@ def menumensajes(request):
 
     return render(request, 'core/crudmensajes/menumensajes.html', data)
 
-@grupo_requerido('vendedor')
 def agregarm(request):
     data = {
         'form': MensajeForm()
@@ -398,7 +375,6 @@ def agregarm(request):
 
     return render(request, 'core/crudmensajes/agregarm.html', data)
 
-@grupo_requerido('vendedor')
 def modificarm(request, id):
     producto = Mensaje.objects.get(id=id); 
     data = {
@@ -413,7 +389,6 @@ def modificarm(request, id):
 
     return render(request, 'core/crudmensajes/modificarm.html', data)
 
-@grupo_requerido('vendedor')
 def eliminarm(request, id):
     producto = Mensaje.objects.get(id=id); # OBTENEMOS UN PRODUCTO
     producto.delete()
@@ -426,111 +401,47 @@ def eliminarm(request, id):
 
 #carro
 
-@grupo_requerido('cliente')
+
 def carrito(request):
+     respuesta = requests.get('https://mindicador.cl/api/dolar')
+     monedas = respuesta.json()
+     valor_usd = monedas['serie'][0]['valor']
 
-    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
-    monedas = respuesta2.json()
-    productos = Carrito.objects.filter(id_usuario = request.user.id).all()
+     carro_compras, _ =Carrito.objects.get_or_create(Usuario.request.user)
+     producto = carro_compras.productos.all()
+     total = carro_compras.total()
 
-    if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
-        sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
-        esta_suscrito = sub.estado_sub
-    else:
-        esta_suscrito = False
+
+     total_dolar = round(total/valor_usd,2)
+
+
+     for x in producto:
+         precio_dolar = round(x.producto.precio/valor_usd,2)
+         x.precio_dolar = precio_dolar
+
+         subtotal_dolar = round(x.subtotal()/valor_usd,2)
+         x.subtotal_dolar = subtotal_dolar
+
+     data = {
+        'producto': producto,
+        'total': total,
+        'total_dolar': total_dolar
+      }
     
-    precio_clp = 0
-    for producto in productos:
-        precio_clp = precio_clp + producto.subtotal_producto
-    
-    descuento = round(precio_clp * 0.95)
+     return render(request, 'core/carrito.html',data)
 
-    valor_usd = monedas['serie'][0]['valor']
-    if esta_suscrito == True:
-        precio_usd = descuento/valor_usd
-    else:
-        precio_usd = precio_clp/valor_usd
-    
 
-    data = {
-        'listaProductos': productos,
-        'valor' : round(precio_usd, 2),
-        'precio_clp': precio_clp,
-        'descuento' : descuento,
-        'is_sub' : esta_suscrito
-    }
-    
-    return render(request, 'core/carrito.html', data)
-
-@grupo_requerido('cliente')
 def car_agregar(request, codigo):
-    if Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).exists():
-        carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = codigo).first()
+    Producto = Producto.objets.get(codigo = codigo)
 
-           
-        #Verifica que no se puedan agregar cantidades mayores al stock
 
-        if carrito.producto_carrito.stock == 0:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
-        producto_restar_stock(id, 1)
-        carrito.cantidad_prod = carrito.cantidad_prod + 1
-        carrito.save()
-        messages.success(request, 'Producto agregado')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
-    producto_restar_stock(codigo, 1)
-    nuevo_item_carrito = Carrito()
-    nuevo_item_carrito.id_usuario = Usuario.objects.get(id = request.user.id)
-    nuevo_item_carrito.producto_carrito = Producto.objects.get(codigo = codigo)
-    nuevo_item_carrito.cantidad_prod = 1
-    nuevo_item_carrito.save()
-    messages.success(request, 'Producto agregado')
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #Esta funcion resta en 1 la cantidad del producto del carrito
-@grupo_requerido('cliente')
-def car_una_cantidad_menos(request, id):
-    carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).first()
-    if carrito.cantidad_prod == 1:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
-    producto_sumar_stock(id, 1)
-    carrito.cantidad_prod = carrito.cantidad_prod - 1
-    carrito.save()
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def producto_restar_stock(id, arestar):
-    producto = Producto.objects.filter(id = id).first()
-    producto.stock = producto.stock - arestar
-    producto.save()
-
-
-
-def producto_sumar_stock(id, cantidad):
-    producto = Producto.objects.filter(id = id).first()
-    producto.stock = producto.stock + cantidad
-    producto.save()
-
-@grupo_requerido('cliente')
-def car_eliminar(request, id):
-    producto = Carrito.objects.filter(id_usuario = request.user.id, producto_carrito = id).first()
-    producto_sumar_stock(id, producto.cantidad_prod)
-    producto.delete()
-    return redirect(to="carrito")
-
-@grupo_requerido('cliente')
-def car_eliminar_todo(request):
-    carrito = Carrito.objects.filter(id_usuario = request.user.id)
-    for i in carrito:
-        producto_sumar_stock(i.producto_carrito.pk, i.cantidad_prod)
-    carrito.delete()
-    return redirect(to="carrito")
 
 #orden
-@grupo_requerido('cliente')
+
 def checkout(request):
     respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     monedas = respuesta2.json()
@@ -565,7 +476,7 @@ def checkout(request):
     
     return render(request, 'core/checkout.html', data)
 
-@grupo_requerido('cliente')
+
 def nuevo_pedido(request):
     #carrito y todo lo que contiene del usuario
     productos_carrito = Carrito.objects.filter(id_usuario = request.user.id).all()
@@ -599,7 +510,7 @@ def nuevo_pedido(request):
     productos_carrito.delete()
     return redirect(to="pedidos")
 
-@grupo_requerido('cliente')
+
 def pedidos(request):
 
     ordenes = Orden.objects.filter(id_usuario = request.user.id).all()
@@ -618,7 +529,7 @@ def pedidos(request):
 
     return render(request, 'core/pedidos.html', data)
 
-@grupo_requerido('cliente')
+
 def detalle_pedido(request, id):
     
     orden = Orden.objects.get(id = id)
@@ -631,7 +542,6 @@ def detalle_pedido(request, id):
     }
     return render(request, 'core/detalle_pedido.html', data)
 
-@grupo_requerido('vendedor')
 def menupedidos(request):
     pedidos = Orden.objects.all()
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
@@ -650,7 +560,6 @@ def menupedidos(request):
     print(data['listaPedidos'])
     return render(request, 'core/crud/menupedidos.html', data)
 
-@grupo_requerido('vendedor')
 def actualizar_pedido(request, id):
     pedido = Orden.objects.get(id=id); 
     data = {
@@ -668,7 +577,6 @@ def actualizar_pedido(request, id):
 
     return render(request, 'core/crud/actualizar_pedido.html', data)
 
-@grupo_requerido('vendedor')
 def informes(request):
     pedidos = Orden.objects.all()
 

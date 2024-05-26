@@ -18,10 +18,6 @@ class ProductoAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ['nombre']
 
-class CarritoAdmin(admin.ModelAdmin):
-    readonly_fields = ("id",)
-    list_display = ['id_usuario', 'producto_carrito','cantidad_prod']
-    list_editable = ['producto_carrito','cantidad_prod']
 
 class MensajeAdmin(admin.ModelAdmin):
     readonly_fields = ("id",)
@@ -39,7 +35,7 @@ admin.site.register(Usuario)
 admin.site.register(Marca, MarcaAdmin )
 admin.site.register(Mensaje, MensajeAdmin)
 admin.site.register(Producto, ProductoAdmin )
-admin.site.register(Carrito, CarritoAdmin)
+admin.site.register(Carrito)
 admin.site.register(Suscripcion)
 admin.site.register(EstadoOrden)
 admin.site.register(Orden, OrdenAdmin)
@@ -48,5 +44,4 @@ admin.site.register(Donacion)
 
 
 
-#<!-- {% if user.username == 'admin' %} -->
 
