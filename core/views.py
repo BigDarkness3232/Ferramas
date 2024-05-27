@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import *
+from django.core.management.base import BaseCommand
 from django.contrib import messages
 from rest_framework import viewsets
 from .serializers import *
@@ -18,19 +19,7 @@ from dateutil.relativedelta import relativedelta
 api_url = "http://127.0.0.1:5000"
 
 #Creando una clase que va a permitir la transformacion
-class ProductoViewset(viewsets.ModelViewSet):
-    queryset = Producto.objects.all()
-    serializer_class = ProductoSerializers
 
-
-
-class MarcaViewset(viewsets.ModelViewSet):
-    queryset = Marca.objects.all()
-    serializer_class = MarcaSerializers
-
-class MensajeViewset(viewsets.ModelViewSet):
-    queryset = Mensaje.objects.all()
-    serializer_class = MensajeSerializers
 
 
 #Permisos
@@ -40,14 +29,17 @@ class MensajeViewset(viewsets.ModelViewSet):
 
 
 def index(request):
+    url = 'http://127.0.0.1:5000/Productos'
     # Obtener la lista de productos desde la API
     respuesta_productos = requests.get('http://127.0.0.1:5000/Productos')
     productos = respuesta_productos.json()
 
+    response = requests.get(url)
     # Obtener información sobre el precio del dólar desde la API de Mindicador
     respuesta_dolar = requests.get('https://mindicador.cl/api/dolar')
     dolar_data = respuesta_dolar.json()
     precio_dolar = dolar_data['serie'][0]['valor']
+
 
 
         # Hacer una solicitud a la API para obtener la información del producto
@@ -407,7 +399,7 @@ def carrito(request):
      monedas = respuesta.json()
      valor_usd = monedas['serie'][0]['valor']
 
-     carro_compras, _ =Carrito.objects.get_or_create(Usuario.request.user)
+     carro_compras, _ = Carrito.objects.get_or_create(usuario=request.user)
      producto = carro_compras.productos.all()
      total = carro_compras.total()
 
@@ -431,13 +423,65 @@ def carrito(request):
      return render(request, 'core/carrito.html',data)
 
 
-def car_agregar(request, codigo):
-    Producto = Producto.objets.get(codigo = codigo)
+def agregarcarrito(request, codigo):
+    productos = Producto.objects.get(codigo = codigo)
+    # Resto del código...
+    carro_compra, carro_created = Carrito.objects.get_or_create(Usuario= request.user)
+    carro_producto , prod_created = CarroProducto.objects.get_or_create(productos,usuario = request.user)
+
+    if not prod_created:
+        if productos.stock >= 1:
+            carro_producto.cantidad +=1
+            carro_producto.save()
+            productos.stock -= 1
+            productos.save()
+            carro_compra.productos.add(carro_producto)
+        else:
+            return redirect(to='carrito')
+    else:
+        if productos.stock >= 1:
+            carro_producto.cantidad = 1
+            carro_producto.save()
+            productos.stock -= 1
+            productos.save()
+            carro_compra.productos.add(carro_producto)
+        else:
+            return redirect(to='carrito')
+    carro_compra.save()
+    
+    return redirect(to='carrito')
+
+def borrarcarrito(request, codigo):
+    producto = Producto.objects.get(codigo = codigo)
+    carro_compras = Carrito.objects.get(usuario = request.user)
+    carro_producto = carro_compras.productos.get(producto = producto)
 
 
+    carro_compras.productos.remove(carro_producto)
+    carro_producto.delete()
 
-#Esta funcion resta en 1 la cantidad del producto del carrito
 
+    producto.stock += carro_producto.cantidad
+    producto.save()
+    return redirect(to = 'carrito')
+
+def bajarstock(request, codigo):
+    producto = Producto.objects.get(codigo = codigo)
+    carro_compras = carrito.objects.get(usuario = request.user)
+    carro_producto = carro_compras.productos.get(producto = producto)  
+
+    if carro_producto.cantidad > 1:
+        carro_producto.cantidad-= 1
+        carro_producto.save()
+        carro_compras.delete()
+    else:
+        carro_compras.productos.remove(carro_producto)
+        carro_producto.delete()
+
+    Producto.stock +=1
+    Producto.save()
+ 
+    return redirect(to = 'carrito') 
 
 
 #orden
@@ -445,10 +489,10 @@ def car_agregar(request, codigo):
 def checkout(request):
     respuesta2 = requests.get('https://mindicador.cl/api/dolar')
     monedas = respuesta2.json()
-    productos = Carrito.objects.filter(id_usuario = request.user.id).all()
+    productos = Carrito.objects.get(usuario = request.user)
 
-    if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
-        sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
+    if Suscripcion.objects.filter(usuario = request.user.id).exists():
+        sub = Suscripcion.objects.filter(usuario = request.user.id).first()
         esta_suscrito = sub.estado_sub
     else:
         esta_suscrito = False

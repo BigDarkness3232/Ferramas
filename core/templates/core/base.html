@@ -83,7 +83,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             
-                            <a class="nav-link" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"> </i> <span class="badge badge-secondary">{% cantidad_productos_carrito request %}</span></a> 
+                            <a class="nav-link" href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping"> </i> <span class="badge badge-secondary"></span></a> 
                             
                         </li>
                     {% endif %}

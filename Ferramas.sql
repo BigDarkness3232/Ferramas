@@ -79,16 +79,26 @@ CREATE TABLE `auth_permission` (
 -- Volcado de datos para la tabla `auth_permission`
 --
 
+CREATE TABLE `core_producto` (
+  `codigo` bigint(20) NOT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
+  `nombre_producto` varchar(50) NOT NULL,
+  `descripcion` varchar(500) NOT NULL,
+  `id_marca` bigint(20) NOT NULL,
+  `nombre_marca` varchar(100) not null,
+  `precio` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `core_carrito`
 --
 
-create TABLE `carroProducto`(
+create TABLE `core_CarroProducto`(
   `id` bigint(20) NOT NULL,
-     `producto` bigint(20) NOT NULL,
+  `producto` bigint(20) NOT NULL,
   `cantidad` bigint(20) NOT NULL,
   `usuario` bigint(20) NOT NULL
 
@@ -98,7 +108,7 @@ create TABLE `carroProducto`(
 
 
 
-CREATE TABLE `carrito` (
+CREATE TABLE `core_Carrito` (
   `id` bigint(20) NOT NULL,
   `usuario` bigint(20) NOT NULL,
   `producto` bigint(20) NOT NULL
@@ -209,33 +219,11 @@ CREATE TABLE `core_ordenproducto` (
 -- Estructura de tabla para la tabla `core_producto`
 --
 
-CREATE TABLE `core_producto` (
-  `id` bigint(20) NOT NULL,
-  `imagen` varchar(100) DEFAULT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(500) NOT NULL,
-  `precio` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `creado_en` date NOT NULL,
-  `modificado_en` date NOT NULL,
-  `marca_id` bigint(20) NOT NULL,
-  `tipo_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `core_producto`
 --
 
-INSERT INTO `core_producto` (`id`, `imagen`, `nombre`, `descripcion`, `precio`, `stock`, `creado_en`, `modificado_en`, `marca_id`, `tipo_id`) VALUES
-(2, 'productos/776785_17.jpg', 'Caja de Clavos', 'Caja de clavos', 12, 5, '2024-05-04', '2024-05-20', 1, 4),
-(3, 'productos/Atornillador.png', 'Atornillador', 'Atornillador', 14, 0, '2024-05-04', '2024-05-14', 1, 1),
-(4, 'productos/Barras de Soldar.png', 'iodos para soldar', 'iodos para soldar', 1, 10, '2024-05-04', '2024-05-20', 1, 2),
-(5, 'productos/brocha-condecora-112-hela.jpg', 'Brocha', 'Brocha', 15, 14, '2024-05-04', '2024-05-20', 1, 3),
-(6, 'productos/caiman-boca-plana-7-1502l3-vise-grip.jpg', 'Alicate caiman', 'Alicate caiman', 15, 10, '2024-05-04', '2024-05-20', 1, 3),
-(7, 'productos/caja-herramientas-naranja-22-truper.jpg', 'Caja para Herramientas', 'Caja para Herramientas', 16, 10, '2024-05-04', '2024-05-20', 1, 3),
-(8, 'productos/candados-profesional-linea-300.jpg', 'Candado', 'Candado', 17, 8, '2024-05-04', '2024-05-20', 1, 3),
-(9, 'productos/casco-para-soldar-visor-alzable-fs701-parkson.jpg', 'Casco para soldar', 'Casco para soldar', 24, 10, '2024-05-04', '2024-05-20', 1, 2),
-(10, 'productos/escobillon-de-nylon-y-mango-metalico.jpg', 'Escoba', 'Escoba', 9, 10, '2024-05-04', '2024-05-20', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -256,12 +244,7 @@ CREATE TABLE `core_suscripcion` (
 -- Estructura de tabla para la tabla `core_tipoproducto`
 --
 
-CREATE TABLE `core_tipoproducto` (
-  `id` bigint(20) NOT NULL,
-  `nombreTipoProducto` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
 -- Volcado de datos para la tabla `core_tipoproducto`
 --
 
@@ -398,23 +381,7 @@ CREATE TABLE `django_content_type` (
 -- Volcado de datos para la tabla `django_content_type`
 --
 
-INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
-(1, 'admin', 'logentry'),
-(3, 'auth', 'group'),
-(2, 'auth', 'permission'),
-(4, 'contenttypes', 'contenttype'),
-(14, 'core', 'carrito'),
-(16, 'core', 'donacion'),
-(7, 'core', 'estadoorden'),
-(8, 'core', 'marca'),
-(9, 'core', 'mensaje'),
-(10, 'core', 'orden'),
-(15, 'core', 'ordenproducto'),
-(13, 'core', 'producto'),
-(12, 'core', 'suscripcion'),
-(11, 'core', 'tipoproducto'),
-(6, 'core', 'usuario'),
-(5, 'sessions', 'session');
+
 
 -- --------------------------------------------------------
 
@@ -433,32 +400,7 @@ CREATE TABLE `django_migrations` (
 -- Volcado de datos para la tabla `django_migrations`
 --
 
-INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2023-06-24 05:43:45.762771'),
-(2, 'contenttypes', '0002_remove_content_type_name', '2023-06-24 05:43:45.802929'),
-(3, 'auth', '0001_initial', '2023-06-24 05:43:45.989068'),
-(4, 'auth', '0002_alter_permission_name_max_length', '2023-06-24 05:43:46.025728'),
-(5, 'auth', '0003_alter_user_email_max_length', '2023-06-24 05:43:46.030106'),
-(6, 'auth', '0004_alter_user_username_opts', '2023-06-24 05:43:46.034610'),
-(7, 'auth', '0005_alter_user_last_login_null', '2023-06-24 05:43:46.039378'),
-(8, 'auth', '0006_require_contenttypes_0002', '2023-06-24 05:43:46.042239'),
-(9, 'auth', '0007_alter_validators_add_error_messages', '2023-06-24 05:43:46.045419'),
-(10, 'auth', '0008_alter_user_username_max_length', '2023-06-24 05:43:46.048635'),
-(11, 'auth', '0009_alter_user_last_name_max_length', '2023-06-24 05:43:46.051115'),
-(12, 'auth', '0010_alter_group_name_max_length', '2023-06-24 05:43:46.099751'),
-(13, 'auth', '0011_update_proxy_permissions', '2023-06-24 05:43:46.104605'),
-(14, 'auth', '0012_alter_user_first_name_max_length', '2023-06-24 05:43:46.107605'),
-(15, 'core', '0001_initial', '2023-06-24 05:43:46.846978'),
-(16, 'admin', '0001_initial', '2023-06-24 05:43:46.939609'),
-(17, 'admin', '0002_logentry_remove_auto_add', '2023-06-24 05:43:46.949602'),
-(18, 'admin', '0003_logentry_add_action_flag_choices', '2023-06-24 05:43:46.955365'),
-(19, 'sessions', '0001_initial', '2023-06-24 05:43:46.975573'),
-(20, 'core', '0002_alter_usuario_direccion', '2023-06-24 07:29:11.599385'),
-(21, 'core', '0003_orden_direccion_envio', '2023-06-24 20:41:34.075059'),
-(22, 'core', '0004_donacion', '2023-06-25 04:29:53.392768'),
-(23, 'core', '0005_rename_monto_donado_donacion_monto_a_donar', '2023-06-25 04:46:02.709025'),
-(24, 'core', '0006_alter_orden_creado_en_alter_orden_modificado_en', '2023-06-25 08:35:04.843705'),
-(25, 'core', '0007_alter_orden_creado_en_alter_orden_modificado_en_and_more', '2023-06-25 08:45:36.903344');
+
 
 -- --------------------------------------------------------
 
@@ -521,8 +463,6 @@ ALTER TABLE `core_estadoorden`
 --
 -- Indices de la tabla `core_marca`
 --
-ALTER TABLE `core_marca`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `core_mensaje`
@@ -587,8 +527,7 @@ ALTER TABLE `django_content_type`
 --
 -- Indices de la tabla `django_migrations`
 --
-ALTER TABLE `django_migrations`
-  ADD PRIMARY KEY (`id`);
+
 
 --
 -- Indices de la tabla `django_session`
@@ -652,9 +591,7 @@ ALTER TABLE `core_ordenproducto`
 
 --
 -- AUTO_INCREMENT de la tabla `core_producto`
---
-ALTER TABLE `core_producto`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 
 --
 -- AUTO_INCREMENT de la tabla `core_suscripcion`
@@ -665,8 +602,6 @@ ALTER TABLE `core_suscripcion`
 --
 -- AUTO_INCREMENT de la tabla `core_tipoproducto`
 --
-ALTER TABLE `core_tipoproducto`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `core_usuario`
@@ -740,9 +675,6 @@ ALTER TABLE `core_orden`
 --
 -- Filtros para la tabla `core_producto`
 --
-ALTER TABLE `core_producto`
-  ADD CONSTRAINT `core_producto_marca_id_b2651e7a_fk_core_marca_id` FOREIGN KEY (`marca_id`) REFERENCES `core_marca` (`id`),
-  ADD CONSTRAINT `core_producto_tipo_id_e0e92ad1_fk_core_tipoproducto_id` FOREIGN KEY (`tipo_id`) REFERENCES `core_tipoproducto` (`id`);
 
 --
 -- Filtros para la tabla `core_suscripcion`

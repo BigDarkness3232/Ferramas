@@ -5,9 +5,7 @@ from rest_framework import routers
 #Creacion de las rutas para la api
 router = routers.DefaultRouter()
 
-router.register('productos', ProductoViewset)
-router.register('marcas', MarcaViewset)
-router.register('mensajes', MensajeViewset)
+
 
 urlpatterns = [
 
@@ -34,10 +32,10 @@ urlpatterns = [
         path('menuadmin/', menuadmin , name="menuadmin"),
         #Carrito
         path('carrito/', carrito, name="carrito"),
-        path('car_agregar/<codigo>/', car_agregar, name="carrito_agregar"),
-        path('car_una_cantidad_menos/<codigo>/', car_una_cantidad_menos, name="carrito_menos"),
-        path('car_eliminar/<codigo>/', car_eliminar, name="carrito_eliminar"),
-        path('car_eliminartodo/', car_eliminar_todo, name="carrito_borra_todo"),
+        path('agregarcarrito/<codigo>/', agregarcarrito, name="agregarcarrito"),
+        # path('car_una_cantidad_menos/<codigo>/', car_una_cantidad_menos, name="carrito_menos"),
+        # path('car_eliminar/<codigo>/', car_eliminar, name="carrito_eliminar"),
+        # path('car_eliminartodo/', car_eliminar_todo, name="carrito_borra_todo"),
         #Perfil
         path('perfil/', perfil, name="perfil"),
         # CRUD Mensajes

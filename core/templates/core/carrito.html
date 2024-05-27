@@ -1,116 +1,153 @@
-{% extends 'core/base.html' %}
-{% load static %}
+{% extends 'core/base.html' %} 
+{% load static %} 
 {% load humanize %}
-{% block contenido %}
-<body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2"></div>
-    <div class="col-8" style="text-align: center;">
-        <br>
-        <h1>Carrito de compras</h1>
-        <br>
-        <a href="{% url 'carrito_borra_todo' %}" class="btn btn-danger mb-3 me-4" style="float: left;"><i class="fa-regular fa-trash-can"></i> borrar todo</a>
+
+{% block contenido %} 
+
+{% block css %} 
+<!-- para agregar código css -->
+{% endblock %}
+<!-- Single Page Header start -->
+  <h1 class="text-center text-white display-6">Carrito</h1>
+  <ol class="breadcrumb justify-content-center mb-0">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+  </ol>
+<!-- Single Page Header End -->
+
+<!-- Cart Page Start -->
+<div class="container-fluid py-5">
+  <div class="container py-5">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Productos</th>
+            <th scope="col">Nombre producto</th>
+            <th scope="col">Precio (CLP)</th>
+            <th scope="col">Precio (USD)</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Total</th>
+            <th scope="col">Total dolar</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for x in producto %}
+          <tr>
+            <th scope="row">
+              {% if x.producto.imagen %}
+              <div class="d-flex align-items-center">
+                <img
+                  src="{{ x.producto.imagen.url }}"
+                  class="img-fluid me-5 rounded-circle"
+                  style="width: 80px; height: 80px"
+                  alt=""
+                />
+              </div>
+              {% else %}
+              <div class="d-flex align-items-center">
+                <img
+                  src=""
+                  class="img-fluid me-5 rounded-circle"
+                  style="width: 80px; height: 80px"
+                  alt=""
+                />
+              </div>
+              {% endif %}
+            </th>
+            <td>
+              <p class="mb-0 mt-4">{{ x.producto.nombre }}</p>
+            </td>
+            <td>
+              <p class="mb-0 mt-4">${{ x.producto.precio|intcomma }}</p>
+            </td>
+            <td>
+              <p class="mb-0 mt-4">${{ x.precio_dolar|intcomma }}</p>
+            </td>
+            <td>
+              <div class="input-group quantity mt-4" style="width: 100px">
+                <div class="input-group-btn">
+                  <a href="{% url 'bajarstock' x.producto.id %}"
+                    class="btn btn-sm btn-minus rounded-circle bg-light border"
+                  >
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </div>
+                <input
+                  type="text"
+                  class="form-control form-control-sm text-center border-0"
+                  value="{{x.cantidad}}"
+                />
+                <div class="input-group-btn">
+                  <a href="{% url 'subirstock' x.producto.id %}"
+                    class="btn btn-sm btn-plus rounded-circle bg-light border"
+                  >
+                    <i class="fa fa-plus"></i>
+                  </a>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="mb-0 mt-4">{{x.subtotal|intcomma}}$</p>
+            </td>
+            <td>
+              <p class="mb-0 mt-4">{{x.subtotal_dolar|intcomma}}$</p>
+            </td>
+            <td>
+              <a href="{% url 'borrarcarrito' x.producto.id %}" class="btn btn-md rounded-circle bg-light border mt-4">
+                <i class="fa fa-times text-danger"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
     </div>
-    <div class="col-2"></div>
-    </div>
-    
-</div>
-
-<div class="container-fluid">
-    <div class="row-cols-auto ">
-        <div class="col-2 d-none d-lg-block"></div>
-            <div class="col-8 container">
-                <div class="row">
-                    <div class="col-8" style="text-align: center;">
-                        <div class="card" style="min-height: 350px;">
-                            <div class="card-body">
-                                <table class="table table-responsive-lg ">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">PRODUCTO</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">PRECIO</th>
-                                        <th scope="col">CANTIDAD (Reservado)</th>
-                                        <th scope="col">SUBTOTAL</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody >
-                                        {% for aux in listaProductos %}
-                                        <tr>
-                                            <!--1-->
-                                            <th scope="row" class="align-middle"><a href="{% url 'carrito_eliminar' aux.producto_carrito.id %}"><i class="fa-regular fa-circle-xmark" style="color: #ff0000;"></i></a></th>
-                                            <!--2 PRODUCTO-->
-                                            <td><div>
-                                                    {% if aux.producto_carrito.imagen %}
-                                                        <img src="{{ aux.producto_carrito.imagen.url }}" alt="Card image" style="height: 100px; text-align: center;"></td>
-                                                        
-                                                    {% else %}
-                                                        <img src="{% static 'core/img/logo.jpg' %}" alt="Sin imagen" style="height: 100px;">
-                                                        <h6 style="">No imagen</h6>
-                                                    {% endif %}
-                                                    
-                                                </div> 
-                                            </td>
-                                            <!--3 nombre-->
-                                            <td class="align-middle"><h7 style="">{{ aux.producto_carrito.nombre }} </h7></td>
-
-
-                                            <!--5 PRECIO-->
-                                            <td class="align-middle">${{ aux.producto_carrito.precio | intcomma }}</td>
-                                            <!--6 CANTIDAD-->   
-                                            <!-- <td class="align-middle"><input value="1" min="1" max="{{ aux.producto_carrito.stock }}" type="number" id="idCantidad" class="form-control" /></td> -->
-                                            <td class="align-middle"><a href="{% url 'carrito_menos' aux.producto_carrito.id %}"> <i class="fa-regular fa-square-caret-down fa-lg"></i> </a> {{ aux.cantidad_prod}} <a href="{% url 'carrito_agregar' aux.producto_carrito.id %}"><i class="fa-regular fa-square-caret-up fa-lg"></i></a> </td> 
-                                            <!--7 SUBTOTAL-->
-                                            <td class="align-middle"><h7 style=""> ${{ aux.subtotal_producto | intcomma }} </h7></td>
-
-                                        </tr>
-                                            {% endfor %}
-                                    </tbody>
-                                  </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card" style="min-height: 350px;">
-                            <div class="card-title ms-4 mt-2" style="text-align: center;"><h4>TOTAL DEL CARRITO</h4></div> 
-                            <div class="card-body">
-                                {% if is_sub == True %}
-                                    <p><del> Valor a pagar:  ${{ precio_clp | intcomma }} </del></p>
-                                    <p>Valor con descuento aplicado: ${{ descuento | intcomma }}</p>
-                                {% else %}
-                                    <p>Valor a pagar: ${{ precio_clp | intcomma }}</p>
-                                    <p>Descuento suscriptor no aplica </p>
-                                {% endif %}
-                            
-                                
-                                
-                                <p><a class="btn btn-warning btn-lg" href="{% url 'checkout' %}" role="button"> <i class="fa-solid fa-cash-register"></i> Proceder al pago</a></p>
-                            </div>                           
-                            
-                        </div>
-                    </div>
-                </div>         
+    <div class="row g-4 justify-content-end">
+      <div class="col-8"></div>
+      <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+        <div class="bg-light rounded">
+          <div class="p-4">
+            <h1 class="display-6 mb-4">
+              Total <span class="fw-normal">carrito</span>
+            </h1>
+            <div class="d-flex justify-content-between mb-4">
+              <h5 class="mb-0 me-4">Subtotal:</h5>
+              <p class="mb-0">${{total | intcomma}}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <h5 class="mb-0 me-4">Envío</h5>
+              <div class="">
+                <span class="fw-normal">$0</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
+          >
+            <h5 class="mb-0 ps-4 me-4">Total</h5>
+            <p class="mb-0 pe-4">${{total | intcomma}}</p>
+          </div>
+          <div
+            class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
+          >
+            <h5 class="mb-0 ps-4 me-4">Total dolar</h5>
+            <p class="mb-0 pe-4">${{total_dolar | intcomma}}</p>
+          </div>
+          <a href="{% url 'checkout' %}"
+            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+            type="button"
+          >
+            Checkout
+          </a>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-<div class="container-fluid p-3">
-    <div class="row">
-        <div class="col-2 d-none d-lg-block"></div>
-        <div class="col-8" style="align-content: center;">
-            
-        </div>
-        <div class="col-2 d-none d-lg-block "></div>
-    </div>
-</div>
-<!-- Para quitar los mensajes de agregar-->
-{% if messages %}
-        {% for message in messages %}
-        {% endfor %}
-    {% endif %}
+<!-- Cart Page End -->
+{% endblock %}
 
-        </body>
-
-
-{% endblock contenido %}
+{% block js %}
+{% endblock %}

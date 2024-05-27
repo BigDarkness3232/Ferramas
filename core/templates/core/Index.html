@@ -96,7 +96,7 @@
                                         <p>No disponible</p>
                                     {% else %}
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">detalles</button>
-                                    <a href="{% url 'carrito_agregar' aux.codigo %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
+                                    <a href="{% url 'agregarcarrito' aux.codigo %}" class="link-secondary"><i class="fa-solid fa-cart-shopping fa-beat fa-lg"></i></a>
                                     {% endif %}
                                 {% endif %}
                             </div>
