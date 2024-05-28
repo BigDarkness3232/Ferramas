@@ -26,15 +26,15 @@ urlpatterns = [
         path('add_subs/', agregar_sub, name="agregar_sub"),
         # CRUD
         path('agregar/', agregar, name="agregar"),
-        path('modificar/<codigo>/', modificar, name="modificar"),
-        path('eliminar/<codigo>/', eliminar, name="eliminar"),
+        path('modificar/<id>/', modificar, name="modificar"),
+        path('eliminar/<id>/', eliminar, name="eliminar"),
         # Administracion
         path('menuadmin/', menuadmin , name="menuadmin"),
         #Carrito
         path('carrito/', carrito, name="carrito"),
-        path('agregarcarrito/<codigo>/', agregarcarrito, name="agregarcarrito"),
-        # path('car_una_cantidad_menos/<codigo>/', car_una_cantidad_menos, name="carrito_menos"),
-        # path('car_eliminar/<codigo>/', car_eliminar, name="carrito_eliminar"),
+        path('agregarcarrito/<id>/', agregarcarrito, name="agregarcarrito"),
+        # path('car_una_cantidad_menos/<id>/', car_una_cantidad_menos, name="carrito_menos"),
+        # path('car_eliminar/<id>/', car_eliminar, name="carrito_eliminar"),
         # path('car_eliminartodo/', car_eliminar_todo, name="carrito_borra_todo"),
         #Perfil
         path('perfil/', perfil, name="perfil"),

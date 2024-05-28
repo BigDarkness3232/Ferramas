@@ -261,7 +261,7 @@ def agregar(request):
        formulario = ProductoForm(request.POST, files=request.FILES)
        if formulario.is_valid():
           producto_data ={
-              'codigo': formulario.cleaned_data['codigo'],
+              'id': formulario.cleaned_data['id'],
               'imagen': formulario.cleaned_data['imagen'],
               'nombre_producto': formulario.cleaned_data['nombre'],
               'descripcion': formulario.cleaned_data['descripcion'],
@@ -283,12 +283,12 @@ def agregar(request):
 
     return render(request, 'core/crud/agregar.html', data)
 
-def modificar(request, codigo):
+def modificar(request, id):
     try:
         if request.method == 'POST':
             form = ProductoForm(request.POST)
             if form.is_valid():
-                url = f"http://127.0.0.1:5000/Productos/{codigo}"
+                url = f"http://127.0.0.1:5000/Productos/{id}"
                 response = requests.put(url, json=form.cleaned_data)  # Corrección aquí
                 if response.status_code == 200:
                     messages.success(request, '!El producto se ha actualizado correctamente')
@@ -300,11 +300,11 @@ def modificar(request, codigo):
                 data = {'error': 'El formulario no es válido'}
                 return render(request, 'core/crud/modificar.html', data)
         else:
-            url = f"http://127.0.0.1:5000/Productos/{codigo}"
+            url = f"http://127.0.0.1:5000/Productos/{id}"
             response = requests.get(url)
             if response.status_code == 200:
                 producto = response.json()
-                data = {'form': ProductoForm(initial=producto), 'codigo': codigo}      
+                data = {'form': ProductoForm(initial=producto), 'id': id}      
                 return render(request, 'core/crud/modificar.html', data)
             else: 
                 data = {'error': 'No se pudo obtener el producto de la API'}
@@ -315,9 +315,9 @@ def modificar(request, codigo):
 
 
 
-def eliminar(request, codigo):
+def eliminar(request, id):
     try:
-        url = f"http://127.0.0.1:5000/Productos/{codigo}"
+        url = f"http://127.0.0.1:5000/Productos/{id}"
         response = requests.delete(url)
 
         if response.status_code == 200:
@@ -423,8 +423,8 @@ def carrito(request):
      return render(request, 'core/carrito.html',data)
 
 
-def agregarcarrito(request, codigo):
-    productos = Producto.objects.get(codigo = codigo)
+def agregarcarrito(request, id):
+    productos = Producto.objects.get(id = id)
     # Resto del código...
     carro_compra, carro_created = Carrito.objects.get_or_create(Usuario= request.user)
     carro_producto , prod_created = CarroProducto.objects.get_or_create(productos,usuario = request.user)
@@ -451,8 +451,8 @@ def agregarcarrito(request, codigo):
     
     return redirect(to='carrito')
 
-def borrarcarrito(request, codigo):
-    producto = Producto.objects.get(codigo = codigo)
+def borrarcarrito(request, id):
+    producto = Producto.objects.get(id = id)
     carro_compras = Carrito.objects.get(usuario = request.user)
     carro_producto = carro_compras.productos.get(producto = producto)
 
@@ -465,8 +465,8 @@ def borrarcarrito(request, codigo):
     producto.save()
     return redirect(to = 'carrito')
 
-def bajarstock(request, codigo):
-    producto = Producto.objects.get(codigo = codigo)
+def bajarstock(request, id):
+    producto = Producto.objects.get(id = id)
     carro_compras = carrito.objects.get(usuario = request.user)
     carro_producto = carro_compras.productos.get(producto = producto)  
 

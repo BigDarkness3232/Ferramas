@@ -19,7 +19,7 @@ class Marca(models.Model):
         return self.nombre_marca
 
 class Producto(models.Model):
-    codigo =models.IntegerField()
+    id =models.IntegerField()
     imagen = models.ImageField(upload_to="productos", blank=True, null=True)
     nombre = models.CharField(max_length=50)
     id_marca = models.IntegerField()
