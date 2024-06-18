@@ -79,7 +79,7 @@ CREATE TABLE `auth_permission` (
 -- Volcado de datos para la tabla `auth_permission`
 --
 
-CREATE TABLE `core_producto` (
+CREATE TABLE `producto` (
   `codigo` bigint(20) NOT NULL,
   `imagen` varchar(100) DEFAULT NULL,
   `nombre_producto` varchar(50) NOT NULL,
@@ -93,10 +93,10 @@ CREATE TABLE `core_producto` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_carrito`
+-- Estructura de tabla para la tabla `carrito`
 --
 
-create TABLE `core_CarroProducto`(
+create TABLE `CarroProducto`(
   `id` bigint(20) NOT NULL,
   `producto` bigint(20) NOT NULL,
   `cantidad` bigint(20) NOT NULL,
@@ -108,43 +108,38 @@ create TABLE `core_CarroProducto`(
 
 
 
-CREATE TABLE `core_Carrito` (
+CREATE TABLE `_Carrito` (
   `id` bigint(20) NOT NULL,
   `usuario` bigint(20) NOT NULL,
   `producto` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `core_carrito`
+-- Volcado de datos para la tabla `carrito`
 --
 -- -------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_donacion`
+-- Estructura de tabla para la tabla `donacion`
 --
 
-CREATE TABLE `core_donacion` (
-  `id` bigint(20) NOT NULL,
-  `monto_a_donar` int(11) NOT NULL,
-  `id_usuario_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_estadoorden`
+-- Estructura de tabla para la tabla `estadoorden`
 --
 
-CREATE TABLE `core_estadoorden` (
+CREATE TABLE `estadoorden` (
   `id` bigint(20) NOT NULL,
   `estado_orden` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `core_estadoorden`
+-- Volcado de datos para la tabla `estadoorden`
 --
 
-INSERT INTO `core_estadoorden` (`id`, `estado_orden`) VALUES
+INSERT INTO `estadoorden` (`id`, `estado_orden`) VALUES
 (1, 'validación'),
 (2, 'preparación'),
 (3, 'reparto'),
@@ -153,28 +148,22 @@ INSERT INTO `core_estadoorden` (`id`, `estado_orden`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_marca`
+-- Estructura de tabla para la tabla `marca`
 --
 
-CREATE TABLE `core_marca` (
-  `id` bigint(20) NOT NULL,
-  `nombre_marca` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `core_marca`
+-- Volcado de datos para la tabla `marca`
 --
 
-INSERT INTO `core_marca` (`id`, `nombre_marca`) VALUES
-(1, 'ferramas');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_mensaje`
+-- Estructura de tabla para la tabla `mensaje`
 --
 
-CREATE TABLE `core_mensaje` (
+CREATE TABLE `mensaje` (
   `id` bigint(20) NOT NULL,
   `imagen` varchar(100) DEFAULT NULL,
   `nombre` varchar(50) NOT NULL,
@@ -186,10 +175,10 @@ CREATE TABLE `core_mensaje` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_orden`
+-- Estructura de tabla para la tabla `orden`
 --
 
-CREATE TABLE `core_orden` (
+CREATE TABLE `orden` (
   `id` bigint(20) NOT NULL,
   `precio_orden` int(11) DEFAULT NULL,
   `creado_en` date NOT NULL,
@@ -203,10 +192,10 @@ CREATE TABLE `core_orden` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_ordenproducto`
+-- Estructura de tabla para la tabla `ordenproducto`
 --
 
-CREATE TABLE `core_ordenproducto` (
+CREATE TABLE `ordenproducto` (
   `id` bigint(20) NOT NULL,
   `cantidad_prod` int(11) NOT NULL,
   `orden_id` bigint(20) NOT NULL,
@@ -216,22 +205,22 @@ CREATE TABLE `core_ordenproducto` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_producto`
+-- Estructura de tabla para la tabla `producto`
 --
 
 
 --
--- Volcado de datos para la tabla `core_producto`
+-- Volcado de datos para la tabla `producto`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_suscripcion`
+-- Estructura de tabla para la tabla `suscripcion`
 --
 
-CREATE TABLE `core_suscripcion` (
+CREATE TABLE `suscripcion` (
   `id` bigint(20) NOT NULL,
   `suscrito_el` date NOT NULL,
   `renovacion_el` date DEFAULT NULL,
@@ -241,27 +230,22 @@ CREATE TABLE `core_suscripcion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_tipoproducto`
+-- Estructura de tabla para la tabla `tipoproducto`
 --
 
 
--- Volcado de datos para la tabla `core_tipoproducto`
+-- Volcado de datos para la tabla `tipoproducto`
 --
 
-INSERT INTO `core_tipoproducto` (`id`, `nombreTipoProducto`) VALUES
-(1, 'herramientas electricas'),
-(2, 'Herramientas para soldar'),
-(3, 'herramientas generales'),
-(4, 'clavos y tornillos'),
-(5, 'productos de limpieza');
+
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `core_usuario` (
+CREATE TABLE `usuario` (
   `id` bigint(20) NOT NULL,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
@@ -277,10 +261,10 @@ CREATE TABLE `core_usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `core_usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `core_usuario` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `direccion`) VALUES
+INSERT INTO `usuario` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `direccion`) VALUES
 (1, 'pbkdf2_sha256$600000$nZ4t5kRpffZfikB5VWd252$izPHj/jtQuTAoMlccpxN1sZVG3CXDjwkWzQCgRYjSsY=', '2024-05-14 23:04:18.875145', 1, 'admin', 'admin', 'admin', 'fre.cardenas@duocuc.cl', 1, 1, '2023-06-24 05:45:36.000000', 'Hyrule 234'),
 (4, 'pbkdf2_sha256$600000$xEQ7Nn78vLhH1mApbujqD6$gj9W8D9wQSrzCubinWEBvG/j9SVr2omRfHekP2jUMQk=', '2023-06-25 08:54:52.195836', 0, 'ArmorStand2', 'Alfredo', 'Turbina', 'alfredoturbina@gmail.com', 0, 1, '2023-06-24 07:45:48.495135', 'Rio mapocho numero 1122'),
 (5, 'pbkdf2_sha256$600000$mH6BwwUjtt8LqV54kmPVDN$aVk4u2Bgn9sA03E9LhMG8Qo79iTA8GUMP9onUr0PloE=', '2023-06-25 09:00:02.041466', 0, 'VendeDoor', 'Jordan', 'Belfort', 'thewolf@wallstreet.com', 0, 1, '2023-06-24 08:02:28.000000', '1 Wall Street'),
@@ -290,20 +274,20 @@ INSERT INTO `core_usuario` (`id`, `password`, `last_login`, `is_superuser`, `use
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_usuario_groups`
+-- Estructura de tabla para la tabla `usuario_groups`
 --
 
-CREATE TABLE `core_usuario_groups` (
+CREATE TABLE `usuario_groups` (
   `id` bigint(20) NOT NULL,
   `usuario_id` bigint(20) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `core_usuario_groups`
+-- Volcado de datos para la tabla `usuario_groups`
 --
 
-INSERT INTO `core_usuario_groups` (`id`, `usuario_id`, `group_id`) VALUES
+INSERT INTO `usuario_groups` (`id`, `usuario_id`, `group_id`) VALUES
 (5, 1, 1),
 (1, 1, 2),
 (4, 1, 3),
@@ -316,17 +300,11 @@ INSERT INTO `core_usuario_groups` (`id`, `usuario_id`, `group_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `core_usuario_user_permissions`
+-- Estructura de tabla para la tabla `usuario_user_permissions`
 --
 
-CREATE TABLE `core_usuario_user_permissions` (
-  `id` bigint(20) NOT NULL,
-  `usuario_id` bigint(20) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
+-- -------------------------------------------------------
 --
 -- Estructura de tabla para la tabla `django_admin_log`
 --
@@ -444,69 +422,63 @@ ALTER TABLE `auth_group`
 
 
 --
--- Indices de la tabla `core_carrito`
+-- Indices de la tabla `carrito`
 --
 
 --
--- Indices de la tabla `core_donacion`
---
-ALTER TABLE `core_donacion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `core_donacion_id_usuario_id_d847a9b9_fk_core_usuario_id` (`id_usuario_id`);
 
+-- Indices de la tabla `estadoorden`
 --
--- Indices de la tabla `core_estadoorden`
---
-ALTER TABLE `core_estadoorden`
+ALTER TABLE `estadoorden`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `core_marca`
+-- Indices de la tabla `marca`
 --
 
 --
--- Indices de la tabla `core_mensaje`
+-- Indices de la tabla `mensaje`
 --
-ALTER TABLE `core_mensaje`
+ALTER TABLE `mensaje`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `core_orden`
+-- Indices de la tabla `orden`
 --
-ALTER TABLE `core_orden`
+ALTER TABLE `orden`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `core_orden_estado_orden_id_6cc261ab_fk_core_estadoorden_id` (`estado_orden_id`),
-  ADD KEY `core_orden_id_usuario_id_2ff524b5_fk_core_usuario_id` (`id_usuario_id`);
+  ADD KEY `orden_estado_orden_id_6cc261ab_fk_estadoorden_id` (`estado_orden_id`),
+  ADD KEY `orden_id_usuario_id_2ff524b5_fk_usuario_id` (`id_usuario_id`);
 
 --
--- Indices de la tabla `core_ordenproducto`
---
-
-
---
--- Indices de la tabla `core_producto`
---
--- Indices de la tabla `core_tipoproducto`
+-- Indices de la tabla `ordenproducto`
 --
 
 
 --
--- Indices de la tabla `core_usuario`
+-- Indices de la tabla `producto`
 --
-ALTER TABLE `core_usuario`
+-- Indices de la tabla `tipoproducto`
+--
+
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indices de la tabla `core_usuario_groups`
+-- Indices de la tabla `usuario_groups`
 --
-ALTER TABLE `core_usuario_groups`
+ALTER TABLE `usuario_groups`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `core_usuario_groups_usuario_id_group_id_bde3c750_uniq` (`usuario_id`,`group_id`),
-  ADD KEY `core_usuario_groups_group_id_55312a9a_fk_auth_group_id` (`group_id`);
+  ADD UNIQUE KEY `usuario_groups_usuario_id_group_id_bde3c750_uniq` (`usuario_id`,`group_id`),
+  ADD KEY `usuario_groups_group_id_55312a9a_fk_auth_group_id` (`group_id`);
 
 --
--- Indices de la tabla `core_usuario_user_permissions`
+-- Indices de la tabla `usuario_user_permissions`
 --
 
 --
@@ -515,7 +487,7 @@ ALTER TABLE `core_usuario_groups`
 ALTER TABLE `django_admin_log`
   ADD PRIMARY KEY (`id`),
   ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  ADD KEY `django_admin_log_user_id_c564eba6_fk_core_usuario_id` (`user_id`);
+  ADD KEY `django_admin_log_user_id_c564eba6_fk_usuario_id` (`user_id`);
 
 --
 -- Indices de la tabla `django_content_type`
@@ -551,74 +523,69 @@ ALTER TABLE `auth_group`
 --
 
 --
--- AUTO_INCREMENT de la tabla `core_carrito`
+-- AUTO_INCREMENT de la tabla `carrito`
 --
 --
--- AUTO_INCREMENT de la tabla `core_donacion`
---
-ALTER TABLE `core_donacion`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+-- AUTO_INCREMENT de la tabla `donacion`
 
 --
--- AUTO_INCREMENT de la tabla `core_estadoorden`
+-- AUTO_INCREMENT de la tabla `estadoorden`
 --
-ALTER TABLE `core_estadoorden`
+ALTER TABLE `estadoorden`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `core_marca`
+-- AUTO_INCREMENT de la tabla `marca`
 --
-ALTER TABLE `core_marca`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `core_mensaje`
+-- AUTO_INCREMENT de la tabla `mensaje`
 --
-ALTER TABLE `core_mensaje`
+ALTER TABLE `mensaje`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `core_orden`
+-- AUTO_INCREMENT de la tabla `orden`
 --
-ALTER TABLE `core_orden`
+ALTER TABLE `orden`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `core_ordenproducto`
+-- AUTO_INCREMENT de la tabla `ordenproducto`
 --
-ALTER TABLE `core_ordenproducto`
+ALTER TABLE `ordenproducto`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `core_producto`
+-- AUTO_INCREMENT de la tabla `producto`
 
 
 --
--- AUTO_INCREMENT de la tabla `core_suscripcion`
+-- AUTO_INCREMENT de la tabla `suscripcion`
 --
-ALTER TABLE `core_suscripcion`
+ALTER TABLE `suscripcion`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `core_tipoproducto`
+-- AUTO_INCREMENT de la tabla `tipoproducto`
 --
 
 --
--- AUTO_INCREMENT de la tabla `core_usuario`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
-ALTER TABLE `core_usuario`
+ALTER TABLE `usuario`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `core_usuario_groups`
+-- AUTO_INCREMENT de la tabla `usuario_groups`
 --
-ALTER TABLE `core_usuario_groups`
+ALTER TABLE `usuario_groups`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `core_usuario_user_permissions`
+-- AUTO_INCREMENT de la tabla `usuario_user_permissions`
 --
-ALTER TABLE `core_usuario_user_permissions`
+ALTER TABLE `usuario_user_permissions`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -652,52 +619,49 @@ ALTER TABLE `django_migrations`
 --
 
 --
--- Filtros para la tabla `core_carrito`
+-- Filtros para la tabla `carrito`
 --
 
 --
--- Filtros para la tabla `core_donacion`
---
-ALTER TABLE `core_donacion`
-  ADD CONSTRAINT `core_donacion_id_usuario_id_d847a9b9_fk_core_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `core_usuario` (`id`);
+-- Filtros para la tabla `donacion`
 
 --
--- Filtros para la tabla `core_orden`
+-- Filtros para la tabla `orden`
 --
-ALTER TABLE `core_orden`
-  ADD CONSTRAINT `core_orden_estado_orden_id_6cc261ab_fk_core_estadoorden_id` FOREIGN KEY (`estado_orden_id`) REFERENCES `core_estadoorden` (`id`),
-  ADD CONSTRAINT `core_orden_id_usuario_id_2ff524b5_fk_core_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `core_usuario` (`id`);
+ALTER TABLE `orden`
+  ADD CONSTRAINT `orden_estado_orden_id_6cc261ab_fk_estadoorden_id` FOREIGN KEY (`estado_orden_id`) REFERENCES `estadoorden` (`id`),
+  ADD CONSTRAINT `orden_id_usuario_id_2ff524b5_fk_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `core_ordenproducto`
+-- Filtros para la tabla `ordenproducto`
 --
 
 --
--- Filtros para la tabla `core_producto`
+-- Filtros para la tabla `producto`
 --
 
 --
--- Filtros para la tabla `core_suscripcion`
+-- Filtros para la tabla `suscripcion`
 --
-ALTER TABLE `core_suscripcion`
-  ADD CONSTRAINT `core_suscripcion_id_usuario_id_6d081176_fk_core_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `core_usuario` (`id`);
+ALTER TABLE `suscripcion`
+  ADD CONSTRAINT `suscripcion_id_usuario_id_6d081176_fk_usuario_id` FOREIGN KEY (`id_usuario_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `core_usuario_groups`
+-- Filtros para la tabla `usuario_groups`
 --
-ALTER TABLE `core_usuario_groups`
-  ADD CONSTRAINT `core_usuario_groups_group_id_55312a9a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `core_usuario_groups_usuario_id_97385234_fk_core_usuario_id` FOREIGN KEY (`usuario_id`) REFERENCES `core_usuario` (`id`);
+ALTER TABLE `usuario_groups`
+  ADD CONSTRAINT `usuario_groups_group_id_55312a9a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  ADD CONSTRAINT `usuario_groups_usuario_id_97385234_fk_usuario_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `core_usuario_user_permissions`
+-- Filtros para la tabla `usuario_user_permissions`
 
 --
 -- Filtros para la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
   ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_core_usuario_id` FOREIGN KEY (`user_id`) REFERENCES `core_usuario` (`id`);
+  ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_usuario_id` FOREIGN KEY (`user_id`) REFERENCES `usuario` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -14,12 +14,6 @@ urlpatterns = [
         path('productos/todos/', todosAPI, name="todos_api"),
     	path('', index, name="index"),
         path('registro/', registro, name='registro'),
-        # Productos
-        path('productos/Herramientas electricas/', arbustos, name="Herramientas electricas"),
-		path('productos/Maquinas de soldar/', flores, name="Maquinas de soldar"),
-        path('productos/Herramientas generales/', herramientas, name="Herramientas generales"),
-        path('productos/Clavos y tornillos/', macetas, name="Clavos y tornillos"),
-        path('productos/Productos de limpiezas/', sustratos, name="Productos de limpiezas"),
         # Fundacion/Donar/Sub
         path('fundacion/', fundacion, name="fundacion"),
         path('subscripcion/', subscripcion, name="subscripcion"),
@@ -39,12 +33,6 @@ urlpatterns = [
         #Perfil
         path('perfil/', perfil, name="perfil"),
         # CRUD Mensajes
-        path('agregarm/', agregarm, name="agregarm"),
-        path('modificarm/<id>/', modificarm, name="modificarm"),
-        path('eliminarm/<id>/', eliminarm, name="eliminarm"),
-        #menumensajes
-        path('menumensajes/', menumensajes, name="menumensajes"),
-        #pedido
         path('checkout/', checkout, name="checkout"),
         path('registro_pedido/', nuevo_pedido, name="registro_pedido"),
         path('pedidos/', pedidos, name="pedidos"),

@@ -82,109 +82,14 @@ def todosAPI(request):
     return render(request, 'core/productos/todos_api.html', data)
 
 #<-- Inicio Productos -->
-def arbustos(request):
-    productos = Producto.objects.filter(tipo_id = "1").all()
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data = {
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-    return render(request, 'core/productos/Herramientas electricas.html', data)
-
-def flores(request):
-    productos = Producto.objects.filter(tipo_id = "2")
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data = {
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-    return render(request, 'core/productos/Maquinas de soldar.html', data)
-
-def sustratos(request):
-    productos = Producto.objects.filter(tipo_id = "3")
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data = {
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-    return render(request, 'core/productos/Herramientas generales.html', data)
-
-def macetas(request):
-    productos = Producto.objects.filter(tipo_id = "4")
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data1 = {
-
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-    return render(request, 'core/productos/Clavos y tornillos.html', data1)
-
-def herramientas(request):
-    productos = Producto.objects.filter(tipo_id = "5").all()
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data = {
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-    return render(request, 'core/productos/Productos de limpiezas.html', data)
 
 #<-- Fin Productos -->
 
 #Subscripción
 def fundacion(request):
-    data = {
-        'form': FormularioDonacion()
-    }
-    if request.method == 'POST':
-        formulario = FormularioDonacion(data=request.POST)
-        if formulario.is_valid():
-            #print("Super print debuggeador")
-            #si por algun motivo el usuario vuelve apretar el boton de donar, pero no completo la donacion
-            #el monto anterior se borrara
-            if Donacion.objects.filter(id_usuario_id = request.user.id).exists():
-                Donacion.objects.filter(id_usuario_id = request.user.id).delete()
-            
-            Donacion.objects.create(id_usuario_id = request.user.id, monto_a_donar = formulario.cleaned_data['monto_a_donar'])
-            return redirect(to="subscripcion")
-        
-        data['form'] = formulario
 
-    return render(request, 'core/fundacion.html', data)
+
+    return render(request, 'core/fundacion.html')
 
 
 def subscripcion(request):
@@ -333,66 +238,8 @@ def eliminar(request, id):
 
 
 
-#Fin cosas del menu admin
-
-
-
-# CRUD de los mensajes
-def menumensajes(request):
-    productos = Mensaje.objects.all()
-    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
-    
-    try:
-        paginator = Paginator(productos, 7)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data = {
-        'listaProductos': productos,
-        'paginator': paginator
-    }
-
-    return render(request, 'core/crudmensajes/menumensajes.html', data)
-
-def agregarm(request):
-    data = {
-        'form': MensajeForm()
-    }
-    if request.method == 'POST':
-        formulariom = MensajeForm(request.POST, files=request.FILES)
-        if formulariom.is_valid():
-            formulariom.save()
-            messages.success(request, "mensaje almacenado correctamente")
-
-    return render(request, 'core/crudmensajes/agregarm.html', data)
-
-def modificarm(request, id):
-    producto = Mensaje.objects.get(id=id); 
-    data = {
-        'form': MensajeForm(instance=producto) # LA INFO SE ALMACENA EN EL FORMULARIO
-    }
-    if request.method == 'POST':
-        formulario = MensajeForm(data=request.POST, instance=producto, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, "Producto modificado correctamente")
-            data['form'] = formulario # CARGAMOS EL FORMULARIO FINAL CON LA INFO MODIFICADA
-
-    return render(request, 'core/crudmensajes/modificarm.html', data)
-
-def eliminarm(request, id):
-    producto = Mensaje.objects.get(id=id); # OBTENEMOS UN PRODUCTO
-    producto.delete()
-
-    return redirect(to="menumensajes")
-
-
-
-#Fin cosas del menu mensajes
 
 #carro
-
 
 def carrito(request):
      respuesta = requests.get('https://mindicador.cl/api/dolar')

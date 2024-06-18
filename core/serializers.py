@@ -11,15 +11,10 @@ class MarcaSerializers(serializers.ModelSerializer):
 
 class ProductoSerializers(serializers.ModelSerializer):
     
-
     class Meta:
         model = Producto
         fields = '__all__'
 
-class MensajeSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Mensaje
-        fields = '__all__'
 
 
 

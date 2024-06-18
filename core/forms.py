@@ -24,21 +24,6 @@ class ProductoForm(forms.Form):
     stock = forms.IntegerField()
 
 
-
-class MensajeForm(ModelForm):
-
-    nombre = forms.CharField(min_length=4,widget=forms.TextInput(attrs={"placeholder":"Ingrese Nombre del mensaje"}))
-    descripcion = forms.CharField(min_length=10,max_length=200,widget=forms.Textarea(attrs={"rows":4}))
-
-
-    class Meta:
-        model = Mensaje
-        fields = '__all__'
-        widgets = {
-            'creado_en' : forms.SelectDateWidget(years=range(2020,2030)),
-            'modificado_en' : forms.SelectDateWidget(years=range(2020,2030))
-        }
-
 class EstadoOdenForm(ModelForm):
     
     class Meta:
