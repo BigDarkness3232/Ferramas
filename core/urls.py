@@ -11,8 +11,7 @@ urlpatterns = [
 
         #Api
         path('api/', include(router.urls)),
-        path('productos/todos/', todosAPI, name="todos_api"),
-    	path('', index, name="index"),
+    	path('home', index, name="index"),
         path('registro/', registro, name='registro'),
         # Fundacion/Donar/Sub
         path('fundacion/', fundacion, name="fundacion"),

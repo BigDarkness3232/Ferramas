@@ -15,7 +15,7 @@ class CreacionUsuarioForm(UserCreationForm):
 
 class ProductoForm(forms.Form):
     id = forms.CharField(max_length=20, label="id")
-    imagen = forms.CharField()  
+    imagen = forms.CharField()   # type: ignore
     nombre = forms.CharField()
     descripcion = forms.CharField(max_length=200)
     id_marca = forms.IntegerField()
