@@ -6,9 +6,9 @@ def es_vendedor(request):
     return request.user.groups.filter(name="vendedor").exists()
 
 @register.simple_tag
-def es_vendedor(request):
+def es_Bodeguero(request):
     return request.user.groups.filter(name="Bodeguero").exists()
 
 @register.simple_tag
-def es_vendedor(request):
+def es_Contador(request):
     return request.user.groups.filter(name="Contador").exists()

@@ -49,13 +49,6 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 --
 -- Estructura de tabla para la tabla `auth_group_permissions`
 --
-
-CREATE TABLE `auth_group_permissions` (
-  `id` bigint(20) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 --
 -- Volcado de datos para la tabla `auth_group_permissions`
 --
@@ -67,14 +60,6 @@ CREATE TABLE `auth_group_permissions` (
 --
 -- Estructura de tabla para la tabla `auth_permission`
 --
-
-CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 --
 -- Volcado de datos para la tabla `auth_permission`
 --
@@ -163,14 +148,6 @@ INSERT INTO `estadoorden` (`id`, `estado_orden`) VALUES
 -- Estructura de tabla para la tabla `mensaje`
 --
 
-CREATE TABLE `mensaje` (
-  `id` bigint(20) NOT NULL,
-  `imagen` varchar(100) DEFAULT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(150) NOT NULL,
-  `creado_en` date NOT NULL,
-  `modificado_en` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -349,11 +326,6 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 -- Estructura de tabla para la tabla `django_content_type`
 --
 
-CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
-  `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `django_content_type`
@@ -367,13 +339,6 @@ CREATE TABLE `django_content_type` (
 -- Estructura de tabla para la tabla `django_migrations`
 --
 
-CREATE TABLE `django_migrations` (
-  `id` bigint(20) NOT NULL,
-  `app` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 --
 -- Volcado de datos para la tabla `django_migrations`
 --
@@ -386,19 +351,11 @@ CREATE TABLE `django_migrations` (
 -- Estructura de tabla para la tabla `django_session`
 --
 
-CREATE TABLE `django_session` (
-  `session_key` varchar(40) NOT NULL,
-  `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `django_session`
 --
 
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('ndpxh5k5ay5n0rus11e5b9ohbjnkxt2e', '.eJxVjEsOwjAMBe-SNYqcfpKaJXvOUDm2SwookZp2hbg7VOoCtm9m3suMtK1p3Kou4yzmbJw5_W6R-KF5B3KnfCuWS16XOdpdsQet9lpEn5fD_TtIVNO3jgqAnlkn74KSdl5x0B5ajegwemla7gKEiTGIE-qxkaAI4IMMhGTeH_r5OEo:1qDLog:qdhygF2KYISVQo9SIGODc5nMMLFSHXjC6ddptu8SooM', '2023-07-09 09:13:54.820952'),
-('xr7enfcjtolfb89xe9sbpmpsben2qfho', '.eJxVjEsOwjAMBe-SNYqcfpKaJXvOUDm2SwookZp2hbg7VOoCtm9m3suMtK1p3Kou4yzmbJw5_W6R-KF5B3KnfCuWS16XOdpdsQet9lpEn5fD_TtIVNO3jgqAnlkn74KSdl5x0B5ajegwemla7gKEiTGIE-qxkaAI4IMMhGTeH_r5OEo:1s71By:J4Ox_Mv4Tjdqj8BHYlgB_Kq2_gI-FCTo0kKhjmDKx4Q', '2024-05-28 23:04:18.878142');
 
 --
 -- Índices para tablas volcadas
@@ -439,10 +396,7 @@ ALTER TABLE `estadoorden`
 --
 -- Indices de la tabla `mensaje`
 --
-ALTER TABLE `mensaje`
-  ADD PRIMARY KEY (`id`);
 
---
 -- Indices de la tabla `orden`
 --
 ALTER TABLE `orden`
@@ -492,9 +446,6 @@ ALTER TABLE `django_admin_log`
 --
 -- Indices de la tabla `django_content_type`
 --
-ALTER TABLE `django_content_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
 
 --
 -- Indices de la tabla `django_migrations`
@@ -504,9 +455,7 @@ ALTER TABLE `django_content_type`
 --
 -- Indices de la tabla `django_session`
 --
-ALTER TABLE `django_session`
-  ADD PRIMARY KEY (`session_key`),
-  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
+ `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
