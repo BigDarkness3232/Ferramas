@@ -80,14 +80,14 @@ CREATE TABLE `auth_permission` (
 --
 
 CREATE TABLE `core_producto` (
-  `codigo` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `imagen` varchar(100) DEFAULT NULL,
-  `nombre_producto` varchar(50) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
   `descripcion` varchar(500) NOT NULL,
   `id_marca` bigint(20) NOT NULL,
   `nombre_marca` varchar(100) not null,
   `precio` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
+  `stock` int(11) NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 -- --------------------------------------------------------
@@ -108,12 +108,12 @@ create TABLE `core_CarroProducto`(
 
 
 
-CREATE TABLE `core_Carrito` (
+CREATE TABLE `core_carrito` (
   `id` bigint(20) NOT NULL,
-  `usuario` bigint(20) NOT NULL,
-  `producto` bigint(20) NOT NULL
+  `cantidad_prod` int(11) NOT NULL,
+  `id_usuario_id` bigint(20) NOT NULL,
+  `producto_carrito_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
 --
 -- Volcado de datos para la tabla `core_carrito`
 --

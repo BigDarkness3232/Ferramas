@@ -19,7 +19,6 @@ class Marca(models.Model):
         return self.nombre_marca
 
 class Producto(models.Model):
-    codigo =models.IntegerField()
     imagen = models.ImageField(upload_to="productos", blank=True, null=True)
     nombre = models.CharField(max_length=50)
     id_marca = models.IntegerField()
@@ -42,24 +41,20 @@ class Mensaje(models.Model):
         return self.nombre    
 
 #class ProductoEspecial(models.Model):
-class CarroProducto(models.Model):
-    Producto = models.ForeignKey(Producto,on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=1)
-    usuario =models.ForeignKey(Usuario, on_delete=models.CASCADE)
-
 
 
 class Carrito(models.Model):
-    
-    usuario = models.OneToOneField(Usuario,on_delete=models.CASCADE)
-    productos = models.ManyToManyField(CarroProducto)
-    
-    def total (self):
-        total = 0
-        for x in self.productos.all():
-            total += x.subtotal()
-        return total
-    
+
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    producto_carrito = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad_prod = models.IntegerField(default=1)
+    def __str__(self):
+        return str(self.id_usuario)
+
+    @property
+    def subtotal_producto(self):
+        precio = self.producto_carrito.precio * self.cantidad_prod
+        return precio
 
 class EstadoOrden(models.Model):
     estado_orden = models.CharField(max_length=50)

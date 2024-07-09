@@ -261,7 +261,7 @@ def agregar(request):
        formulario = ProductoForm(request.POST, files=request.FILES)
        if formulario.is_valid():
           producto_data ={
-              'codigo': formulario.cleaned_data['codigo'],
+              'id': formulario.cleaned_data['codigo'],
               'imagen': formulario.cleaned_data['imagen'],
               'nombre_producto': formulario.cleaned_data['nombre'],
               'descripcion': formulario.cleaned_data['descripcion'],
@@ -395,94 +395,97 @@ def eliminarm(request, id):
 
 
 def carrito(request):
-     respuesta = requests.get('https://mindicador.cl/api/dolar')
-     monedas = respuesta.json()
-     valor_usd = monedas['serie'][0]['valor']
+    respuesta2 = requests.get('https://mindicador.cl/api/dolar')
+    monedas = respuesta2.json()
+    productos = Carrito.objects.filter(id_usuario = request.user.id).all()
 
-     carro_compras, _ = Carrito.objects.get_or_create(usuario=request.user)
-     producto = carro_compras.productos.all()
-     total = carro_compras.total()
-
-
-     total_dolar = round(total/valor_usd,2)
-
-
-     for x in producto:
-         precio_dolar = round(x.producto.precio/valor_usd,2)
-         x.precio_dolar = precio_dolar
-
-         subtotal_dolar = round(x.subtotal()/valor_usd,2)
-         x.subtotal_dolar = subtotal_dolar
-
-     data = {
-        'producto': producto,
-        'total': total,
-        'total_dolar': total_dolar
-      }
-    
-     return render(request, 'core/carrito.html',data)
-
-
-def agregarcarrito(request, codigo):
-    productos = Producto.objects.get(codigo = codigo)
-    # Resto del código...
-    carro_compra, carro_created = Carrito.objects.get_or_create(Usuario= request.user)
-    carro_producto , prod_created = CarroProducto.objects.get_or_create(productos,usuario = request.user)
-
-    if not prod_created:
-        if productos.stock >= 1:
-            carro_producto.cantidad +=1
-            carro_producto.save()
-            productos.stock -= 1
-            productos.save()
-            carro_compra.productos.add(carro_producto)
-        else:
-            return redirect(to='carrito')
+    if Suscripcion.objects.filter(id_usuario = request.user.id).exists():
+        sub = Suscripcion.objects.filter(id_usuario = request.user.id).first()
+        esta_suscrito = sub.estado_sub
     else:
-        if productos.stock >= 1:
-            carro_producto.cantidad = 1
-            carro_producto.save()
-            productos.stock -= 1
-            productos.save()
-            carro_compra.productos.add(carro_producto)
-        else:
-            return redirect(to='carrito')
-    carro_compra.save()
-    
-    return redirect(to='carrito')
+        esta_suscrito = False
 
-def borrarcarrito(request, codigo):
-    producto = Producto.objects.get(codigo = codigo)
-    carro_compras = Carrito.objects.get(usuario = request.user)
-    carro_producto = carro_compras.productos.get(producto = producto)
+    precio_clp = 0
+    for producto in productos:
+        precio_clp = precio_clp + producto.subtotal_producto
+
+    descuento = round(precio_clp * 0.95)
+
+    valor_usd = monedas['serie'][0]['valor']
+    if esta_suscrito == True:
+        precio_usd = descuento/valor_usd
+    else:
+        precio_usd = precio_clp/valor_usd
 
 
-    carro_compras.productos.remove(carro_producto)
-    carro_producto.delete()
+    data = {
+        'listaProductos': productos,
+        'valor' : round(precio_usd, 2),
+        'precio_clp': precio_clp,
+        'descuento' : descuento,
+        'is_sub' : esta_suscrito
+    }
 
+    return render(request, 'core/carrito.html', data)
 
-    producto.stock += carro_producto.cantidad
+def car_agregar(request, id):
+    if Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).exists():
+        carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).first()
+
+        #Verifica que no se puedan agregar cantidades mayores al stock
+        if carrito.producto_carrito.stock == 0:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        producto_restar_stock(id, 1)
+        carrito.cantidad_prod = carrito.cantidad_prod + 1
+        carrito.save()
+        messages.success(request, 'Producto agregado')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    producto_restar_stock(id, 1)
+    nuevo_item_carrito = Carrito()
+    nuevo_item_carrito.id_usuario = Usuario.objects.get(id = request.user.id)
+    nuevo_item_carrito.producto_carrito = Producto.objects.get(id = id)
+    nuevo_item_carrito.cantidad_prod = 1
+    nuevo_item_carrito.save()
+    messages.success(request, 'Producto agregado')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def car_una_cantidad_menos(request, id):
+    carrito = Carrito.objects.filter(id_usuario = request.user.id).filter(producto_carrito = id).first()
+    if carrito.cantidad_prod == 1:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    producto_sumar_stock(id, 1)
+    carrito.cantidad_prod = carrito.cantidad_prod - 1
+    carrito.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def producto_restar_stock(id, arestar):
+    producto = Producto.objects.filter(id = id).first()
+    producto.stock = producto.stock - arestar
     producto.save()
-    return redirect(to = 'carrito')
 
-def bajarstock(request, codigo):
-    producto = Producto.objects.get(codigo = codigo)
-    carro_compras = carrito.objects.get(usuario = request.user)
-    carro_producto = carro_compras.productos.get(producto = producto)  
 
-    if carro_producto.cantidad > 1:
-        carro_producto.cantidad-= 1
-        carro_producto.save()
-        carro_compras.delete()
-    else:
-        carro_compras.productos.remove(carro_producto)
-        carro_producto.delete()
 
-    Producto.stock +=1
-    Producto.save()
- 
-    return redirect(to = 'carrito') 
+def producto_sumar_stock(id, cantidad):
+    producto = Producto.objects.filter(id = id).first()
+    producto.stock = producto.stock + cantidad
+    producto.save()
 
+def car_eliminar(request, id):
+    producto = Carrito.objects.filter(id_usuario = request.user.id, producto_carrito = id).first()
+    producto_sumar_stock(id, producto.cantidad_prod)
+    producto.delete()
+    return redirect(to="carrito")
+
+def car_eliminar_todo(request):
+    carrito = Carrito.objects.filter(id_usuario = request.user.id)
+    for i in carrito:
+        producto_sumar_stock(i.producto_carrito.pk, i.cantidad_prod)
+    carrito.delete()
+    return redirect(to="carrito")
 
 #orden
 

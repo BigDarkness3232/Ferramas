@@ -32,11 +32,10 @@ urlpatterns = [
         path('menuadmin/', menuadmin , name="menuadmin"),
         #Carrito
         path('carrito/', carrito, name="carrito"),
-        path('agregarcarrito/<codigo>/', agregarcarrito, name="agregarcarrito"),
-        # path('car_una_cantidad_menos/<codigo>/', car_una_cantidad_menos, name="carrito_menos"),
-        # path('car_eliminar/<codigo>/', car_eliminar, name="carrito_eliminar"),
-        # path('car_eliminartodo/', car_eliminar_todo, name="carrito_borra_todo"),
-        #Perfil
+        path('car_agregar/<id>/', car_agregar, name="carrito_agregar"),
+        path('car_una_cantidad_menos/<id>/', car_una_cantidad_menos, name="carrito_menos"),
+        path('car_eliminar/<id>/', car_eliminar, name="carrito_eliminar"),
+        path('car_eliminartodo/', car_eliminar_todo, name="carrito_borra_todo"),
         path('perfil/', perfil, name="perfil"),
         # CRUD Mensajes
         path('agregarm/', agregarm, name="agregarm"),

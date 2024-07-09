@@ -14,7 +14,6 @@ class CreacionUsuarioForm(UserCreationForm):
         fields = ['first_name', 'last_name',  'direccion', 'email', 'username', 'password1', 'password2']
 
 class ProductoForm(forms.Form):
-    codigo = forms.CharField(max_length=20, label="codigo")
     imagen = forms.CharField()  
     nombre = forms.CharField()
     descripcion = forms.CharField(max_length=200)
