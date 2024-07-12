@@ -41,7 +41,7 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 (2, 'administrador'),
 (1, 'cliente'),
 (4, 'contador'),
-(5,'bodeguero'),
+(5, 'bodeguero'),
 (3, 'vendedor');
 
 -- --------------------------------------------------------
